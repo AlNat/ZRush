@@ -8,17 +8,26 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DRush
 {
-    class GameObject
+    class GameObject // Класс для обозначения некого примитива (в 20 кб, ага :) ) - от него происходят все остальные объекты
     {
 
-        // СЛОВАРЬ DICTIONAY, МУВ ОБДЖЕТ 
+        // СЛОВАРЬ DICTIONAY, МУВ ОБДЖЕТ - to think
+
+
+        // Переменные описания объекта
+        // DISCLAMER = Я конечно понимаю, что не стоит делать их public, но очень лень геттеры\сеттеры делать.
+        // Если есть удобный способ снаследовать их и изменять напрямую, то будет отлично.
         public Texture2D objectTexture; // Текстура
         public Rectangle objectCoordinates; // Прямоугольник тестуры - координаты
         public int angle; // Угол поворота
-
-        private int live; // Характеристика персонажа - жизнь
-        private int level; // Уровень
-        private int exp; // Кол-во опыта
+        public bool staticSetting; // Статичен ли объект или нет
+        public int live; // Характеристика жизнь
+        public int level; // Уровень
+        public int exp; // Кол-во очков опыта
+        public int points; // Кол-во очков
+        public int hardCooficient; // Коофицент сложности - СЛОЖНОСТЬ
+        public int moveCooficient = 5; // Коофициент движения - для больших экранов и тд
+        public int damage; // Урон
 
         public virtual void Update() // Виртуальный метод
         {
@@ -40,13 +49,18 @@ namespace DRush
 
         public bool IsAlive ()
         {
-            if ( live > 0 ) 
+            if ( live > 0 ) // Если объект жив
                 return true;
             else
                 return false;
         }
 
-        public int HowMuchLive()
+        public bool IsStatic()
+        {
+            return staticSetting;
+        } 
+
+        public int HowMuchLive() // Вернули кол-во жизни - для HealthBar
         {
             return live;
         }

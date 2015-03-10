@@ -3,34 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 //using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 //using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
-/*
- * DONE
- * 
- * 1) Класс игровой объкет
- * 2) Наследуемые от него классы дракона, пламени, деревни, лучника, мечника. Деревня - около нее появляются враги. Когда деревня уничтожается, враги оттуда не появляются
- * 
- * TODO
- * 
- * 3) Генерация фона по рандому
- * 4) Пламя = стрельба
- * 5) Генерация врагов
- * 6) Деревни
- * 
- */
 
 namespace DRush {// Пространство имен именем нашей игры
 
     public class Game : Microsoft.Xna.Framework.Game // Класс игра
     {
-
-        // GameField  - вынесту туда все
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -55,7 +37,7 @@ namespace DRush {// Пространство имен именем нашей и
         //private Rectangle mainFrame;
 
         private Dragon playerDragon;
-        private Flame playerFlame;
+        //private Flame playerFlame;
 
         // Размеры фигурки дракона - TODO изменять по формуле для разных экранов =Просто что бы не писать числа
         const int dragonLong = 180;
@@ -78,16 +60,13 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.IsFullScreen = true; // Полный экран SETTING
 
             
-
             Random rnd = new Random();
-
-            for (int tX = 0; tX < countOfChuncsX; tX++) // Отрисовывем фон несколькими проходами 
+            for (int tX = 0; tX < countOfChuncsX; tX++) // Генерируем фон
             {
                 for (int tY = 0; tY < countOfChuncsY; tY++)
                 {
                     int rand = rnd.Next(1, 3);
-
-                    back [tX, tY] = rand;
+                    back [tX, tY] = rand; // Числа 1-2 - номера для текстур. TODO - словарь текстур
 
                     mainFrame.Y = yBackgroundCooficient * tY;
                 }
@@ -111,12 +90,11 @@ namespace DRush {// Пространство имен именем нашей и
             // СЮДА ЗАГРУАЕМ ТЕКСТУРЫ
             spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
-            background1 = Content.Load<Texture2D>("texture_greece");
+            background1 = Content.Load<Texture2D>("texture_greece"); // Грузим текстуры для фона
             background2 = Content.Load<Texture2D>("texture_forest");
-            mainFrame = new Rectangle(0, 0, 100, 100); // Создаем чанк
+            mainFrame = new Rectangle(0, 0, 100, 100); // Создаем примитив чанка
 
-            //redDragon = new dragon(redDragonTexture, redDragonTextureRectangle);
-
+            // Создаем экземпляр дракона и инициализирем его
             playerDragon = new Dragon(Content.Load<Texture2D>("texture_reddragon"), new Rectangle(dragonXCoordinates, dragonYCoordinates, dragonLong, dragonHeit));
 
         }
@@ -124,9 +102,11 @@ namespace DRush {// Пространство имен именем нашей и
 
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+           // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
                 this.Exit();
+            }
 
             playerDragon.Update();
 
@@ -140,16 +120,12 @@ namespace DRush {// Пространство имен именем нашей и
             GraphicsDevice.Clear(Color.Black); // Цвет начального фона
 
             spriteBatch.Begin(); // Начало прорисовки фона
-            //Random rnd = new Random();
 
             for (int tX = 0; tX < countOfChuncsX; tX++) // Отрисовывем фон несколькими проходами 
             {
                 for (int tY = 0; tY < countOfChuncsY; tY++) {
-                    //int rand = rnd.Next(1, 3);
-                    // TODO - генерация чанков по формулам - дороги, реки и тд.
                     //spriteBatch.Draw (background[rand], mainFrame, Color.White); - не хочет из массива тянуть :(
-                    switch (back[tX, tY]) // Ха ха ха - бесконечно генерируется
-                    //switch (back[tX,tY])
+                    switch (back[tX, tY])
                     {
                         case 1:
                             spriteBatch.Draw(background1, mainFrame, Color.White);
@@ -160,7 +136,6 @@ namespace DRush {// Пространство имен именем нашей и
                         default:
                             break;
                     }
-                    //spriteBatch.Draw(background1, mainFrame, Color.White); // ToDel when fix
                     mainFrame.Y = yBackgroundCooficient * tY;
                 }
                 mainFrame.X = xBackgroundCooficient * tX;

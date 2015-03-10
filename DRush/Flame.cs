@@ -11,8 +11,6 @@ namespace DRush
     class Flame : GameObject
     {
 
-        private int damage = 100; // Пусть пока будет 100 дамага
-
         public Flame(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
         {
             objectTexture = inputTexture;

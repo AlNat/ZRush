@@ -14,36 +14,48 @@ namespace DRush
 
         public Dragon(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
         {
+            // Технические переменные:
             objectTexture = inputTexture;
             objectCoordinates = inputRectangle;
+            angle = 0; // Угол поворота
+            staticSetting = false; // Статичен ли объект или нет
+
+            // Перемнные персонажа:
+            level = 1; // Уровень
+            exp = 0; // Кол-во очков опыта
+            points = 0; // Кол-во очков
+
+            // Переменные игровой механики и баланса:
+            hardCooficient = 1; // Коофиуиент слоности - ЗАДАВАТЬ ЧЕРЕЗ НАСТРОЙКИ
+            live = 100 / hardCooficient; // Характеристика жизнь
+            damage = 100 / hardCooficient; // Характеристика урона
+
         }
 
         public override void Update() 
         { 
-            // Описание двиения
+            // Описание движения
             if ( Keyboard.GetState().IsKeyDown(Keys.Down) )
             {
-                objectCoordinates.Y += 5;
+                objectCoordinates.Y += moveCooficient;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Up) )
             {
-                objectCoordinates.Y -= 5;
+                objectCoordinates.Y -= moveCooficient;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Left) )
             {
-                objectCoordinates.X -= 5;
+                objectCoordinates.X -= moveCooficient;
             }
             if ( Keyboard.GetState().IsKeyDown(Keys.Right) )
             {
-                objectCoordinates.X += 5;
+                objectCoordinates.X += moveCooficient;
             }
+
+            // Создание выстрела
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) )
             { 
                 
-            }
-            if ( Keyboard.GetState().IsKeyDown(Keys.Escape) )
-            {
-
             }
 
         }
