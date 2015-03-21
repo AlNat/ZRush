@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Archer.cs" />
+    <Compile Include="BackgroundGeneration.cs" />
     <Compile Include="Dragon.cs" />
     <Compile Include="Flame.cs" />
     <Compile Include="Game.cs" />

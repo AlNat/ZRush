@@ -52,6 +52,24 @@ namespace DRush
                 objectCoordinates.X += moveCooficient;
             }
 
+            // Границы экрана - у нас типа шар
+            if (objectCoordinates.X < -5)
+            {
+                objectCoordinates.X = 1580; // В будущем пойдет читать из конфига!
+            }
+            if (objectCoordinates.X > 1600)
+            {
+                objectCoordinates.X = 0; // В будущем пойдет читать из конфига!
+            }
+            if (objectCoordinates.Y < -10)
+            {
+                objectCoordinates.Y = 900; // В будущем пойдет читать из конфига!
+            }
+            if (objectCoordinates.Y > 910)
+            {
+                objectCoordinates.Y = 0; // В будущем пойдет читать из конфига!
+            }
+
             // Создание выстрела
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) )
             { 

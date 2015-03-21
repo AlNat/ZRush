@@ -1,0 +1,13 @@
+Screen :
+widthOfScreen = 
+heightOfScreen = 
+xBackgroundCooficient = 
+yBackgroundCooficient = 
+countOfChuncsX =
+countOfChuncsY =
+Dragon : 
+dragonLong = 
+dragonHeit =
+Monsters :
+hardCooficient =
+moveCooficient = 

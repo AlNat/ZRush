@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using Microsoft.Xna.Framework;
 //using Microsoft.Xna.Framework.Audio;
 //using Microsoft.Xna.Framework.GamerServices;
@@ -16,10 +17,10 @@ namespace DRush {// Пространство имен именем нашей и
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        // Разрешение экрана
-        const int widthOfScreen = 1600;
-        const int heightOfScreen = 900;
-        
+        // Разрешение экрана - CONFIG FILE
+        public const int widthOfScreen = 1600;
+        public const int heightOfScreen = 900;
+       
         // Коофициент для формул background
         const int xBackgroundCooficient = 100;
         const int yBackgroundCooficient = 100; 
@@ -31,10 +32,11 @@ namespace DRush {// Пространство имен именем нашей и
         /* ТЕКСТУРЫ */
         private Texture2D background1;
         private Texture2D background2;
+        private Texture2D background3;
+        private Texture2D background4;
+        private Texture2D background5;
         private Rectangle mainFrame;
-
-        //private Texture2D[] background = new Texture2D[2];
-        //private Rectangle mainFrame;
+        //private Texture2D[] background = new Texture2D[5];
 
         private Dragon playerDragon;
         //private Flame playerFlame;
@@ -59,13 +61,14 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.PreferredBackBufferHeight = heightOfScreen;
             graphics.IsFullScreen = true; // Полный экран SETTING
 
+            // generation = new BackgroundGeneration;
             
             Random rnd = new Random();
             for (int tX = 0; tX < countOfChuncsX; tX++) // Генерируем фон
             {
                 for (int tY = 0; tY < countOfChuncsY; tY++)
                 {
-                    int rand = rnd.Next(1, 3);
+                    int rand = rnd.Next(1, 6);
                     back [tX, tY] = rand; // Числа 1-2 - номера для текстур. TODO - словарь текстур
 
                     mainFrame.Y = yBackgroundCooficient * tY;
@@ -90,8 +93,11 @@ namespace DRush {// Пространство имен именем нашей и
             // СЮДА ЗАГРУАЕМ ТЕКСТУРЫ
             spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
-            background1 = Content.Load<Texture2D>("texture_greece"); // Грузим текстуры для фона
+            background1 = Content.Load<Texture2D>("texture_grass"); // Грузим текстуры для фона
             background2 = Content.Load<Texture2D>("texture_forest");
+            background3 = Content.Load<Texture2D>("texture_farm");
+            background4 = Content.Load<Texture2D>("texture_road");
+            background5 = Content.Load<Texture2D>("texture_villige");
             mainFrame = new Rectangle(0, 0, 100, 100); // Создаем примитив чанка
 
             // Создаем экземпляр дракона и инициализирем его
@@ -121,6 +127,7 @@ namespace DRush {// Пространство имен именем нашей и
 
             spriteBatch.Begin(); // Начало прорисовки фона
 
+            // generation.Draw (spiteBatch); // Прорисовали фон
             for (int tX = 0; tX < countOfChuncsX; tX++) // Отрисовывем фон несколькими проходами 
             {
                 for (int tY = 0; tY < countOfChuncsY; tY++) {
@@ -132,6 +139,15 @@ namespace DRush {// Пространство имен именем нашей и
                             break;
                         case 2:
                             spriteBatch.Draw(background2, mainFrame, Color.White);
+                            break;
+                        case 3:
+                            spriteBatch.Draw(background3, mainFrame, Color.White);
+                            break;
+                        case 4:
+                            spriteBatch.Draw(background4, mainFrame, Color.White);
+                            break;
+                        case 5:
+                            spriteBatch.Draw(background5, mainFrame, Color.White);
                             break;
                         default:
                             break;
