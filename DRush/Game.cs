@@ -17,65 +17,24 @@ namespace DRush {// Пространство имен именем нашей и
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        // Разрешение экрана - CONFIG FILE
-        public const int widthOfScreen = 1600;
-        public const int heightOfScreen = 900;
-       
-        // Коофициент для формул background
-        const int xBackgroundCooficient = 100;
-        const int yBackgroundCooficient = 100; 
-            
-        // Кол-во чанков(блоков) в background
-        int countOfChuncsX = widthOfScreen / xBackgroundCooficient;
-        int countOfChuncsY = heightOfScreen / yBackgroundCooficient;
-
-        /* ТЕКСТУРЫ */
-        private Texture2D background1;
-        private Texture2D background2;
-        private Texture2D background3;
-        private Texture2D background4;
-        private Texture2D background5;
-        private Rectangle mainFrame;
-        //private Texture2D[] background = new Texture2D[5];
-
-        private Dragon playerDragon;
-        //private Flame playerFlame;
-
-        // Размеры фигурки дракона - TODO изменять по формуле для разных экранов =Просто что бы не писать числа
-        const int dragonLong = 180;
-        const int dragonHeit = 100;
-        int dragonXCoordinates = widthOfScreen/2;
-        int dragonYCoordinates = heightOfScreen/2;
-
-        //int[,] back = new int[countOfChuncsX, countOfChuncsY];
-        int[,] back = new int[16, 9];
+        private Settings settings;
+        private BackgroundGeneration background;// = new BackgroundGeneration();
+        private Dragon playerDragon; // Дракон
+        private Flame playerFlame;
+        private Texture2D[] texture;// = new Texture2D[6];
 
         public Game() // Конструктор по умолчанию
         {
             graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";
+            settings = new Settings();
+            background = new BackgroundGeneration();
 
+            Content.RootDirectory = "Content";
             this.Window.Title = "DRush"; // Название окна
 
-            graphics.PreferredBackBufferWidth = widthOfScreen; // Разрешение экрана SETTINGS
-            graphics.PreferredBackBufferHeight = heightOfScreen;
+            graphics.PreferredBackBufferWidth = settings.GetWidthOfScreen(); // Разрешение экрана
+            graphics.PreferredBackBufferHeight = settings.GetHeightOfScreen();
             graphics.IsFullScreen = true; // Полный экран SETTING
-
-            // generation = new BackgroundGeneration;
-            
-            Random rnd = new Random();
-            for (int tX = 0; tX < countOfChuncsX; tX++) // Генерируем фон
-            {
-                for (int tY = 0; tY < countOfChuncsY; tY++)
-                {
-                    int rand = rnd.Next(1, 6);
-                    back [tX, tY] = rand; // Числа 1-2 - номера для текстур. TODO - словарь текстур
-
-                    mainFrame.Y = yBackgroundCooficient * tY;
-                }
-                mainFrame.X = xBackgroundCooficient * tX;
-            }
-            
 
         }
 
@@ -93,28 +52,38 @@ namespace DRush {// Пространство имен именем нашей и
             // СЮДА ЗАГРУАЕМ ТЕКСТУРЫ
             spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
-            background1 = Content.Load<Texture2D>("texture_grass"); // Грузим текстуры для фона
-            background2 = Content.Load<Texture2D>("texture_forest");
-            background3 = Content.Load<Texture2D>("texture_farm");
-            background4 = Content.Load<Texture2D>("texture_road");
-            background5 = Content.Load<Texture2D>("texture_villige");
-            mainFrame = new Rectangle(0, 0, 100, 100); // Создаем примитив чанка
+            // Загрузили текстуры -TODO надо подумать насчет более оптимально варианта.
+            texture = new Texture2D[6];
+            texture[0] = Content.Load<Texture2D>("texture_grass");
+            texture[1] = Content.Load<Texture2D>("texture_forest");
+            texture[2] = Content.Load<Texture2D>("texture_farm");
+            texture[3] = Content.Load<Texture2D>("texture_road");
+            texture[4] = Content.Load<Texture2D>("texture_villige");
+            texture[5] = Content.Load<Texture2D>("texture_water");
 
             // Создаем экземпляр дракона и инициализирем его
-            playerDragon = new Dragon(Content.Load<Texture2D>("texture_reddragon"), new Rectangle(dragonXCoordinates, dragonYCoordinates, dragonLong, dragonHeit));
+            playerDragon = new Dragon(Content.Load<Texture2D>("texture_reddragon"), new Rectangle((settings.GetWidthOfScreen() / 2), (settings.GetHeightOfScreen() / 2), 180, 100));
 
         }
 
 
         protected override void Update(GameTime gameTime)
         {
-           // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 this.Exit();
             }
 
             playerDragon.Update();
+            // Пока не будем изменять фон, но в будущем будем изменять и вызывать отсюда background.Update();
+            /*
+            
+            for (int t = 0; t < countOfEnemies; t++) {
+                Enemies[t].Update(); // Обновляем врагов 
+            }
+            // ToDo - обновлять пламя и врагов
+            */
 
             base.Update(gameTime);
         }
@@ -125,37 +94,11 @@ namespace DRush {// Пространство имен именем нашей и
 
             GraphicsDevice.Clear(Color.Black); // Цвет начального фона
 
+
             spriteBatch.Begin(); // Начало прорисовки фона
 
-            // generation.Draw (spiteBatch); // Прорисовали фон
-            for (int tX = 0; tX < countOfChuncsX; tX++) // Отрисовывем фон несколькими проходами 
-            {
-                for (int tY = 0; tY < countOfChuncsY; tY++) {
-                    //spriteBatch.Draw (background[rand], mainFrame, Color.White); - не хочет из массива тянуть :(
-                    switch (back[tX, tY])
-                    {
-                        case 1:
-                            spriteBatch.Draw(background1, mainFrame, Color.White);
-                            break;
-                        case 2:
-                            spriteBatch.Draw(background2, mainFrame, Color.White);
-                            break;
-                        case 3:
-                            spriteBatch.Draw(background3, mainFrame, Color.White);
-                            break;
-                        case 4:
-                            spriteBatch.Draw(background4, mainFrame, Color.White);
-                            break;
-                        case 5:
-                            spriteBatch.Draw(background5, mainFrame, Color.White);
-                            break;
-                        default:
-                            break;
-                    }
-                    mainFrame.Y = yBackgroundCooficient * tY;
-                }
-                mainFrame.X = xBackgroundCooficient * tX;
-            }
+            background.Draw (spriteBatch, ref texture); // Прорисовали фон
+
             spriteBatch.End(); // Конец прорисовки фона
             
 
@@ -164,7 +107,6 @@ namespace DRush {// Пространство имен именем нашей и
             playerDragon.Draw(spriteBatch);
 
             spriteBatch.End(); // Конец прорисовки
-
 
             base.Draw(gameTime);
         }

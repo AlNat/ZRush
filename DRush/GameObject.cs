@@ -17,17 +17,20 @@ namespace DRush
         // Переменные описания объекта
         // DISCLAMER = Я конечно понимаю, что не стоит делать их public, но очень лень геттеры\сеттеры делать.
         // Если есть удобный способ снаследовать их и изменять напрямую, то будет отлично.
+
         public Texture2D objectTexture; // Текстура
         public Rectangle objectCoordinates; // Прямоугольник тестуры - координаты
         public int angle; // Угол поворота
         public bool staticSetting; // Статичен ли объект или нет
+
         public int live; // Характеристика жизнь
         public int level; // Уровень
         public int exp; // Кол-во очков опыта
         public int points; // Кол-во очков
+        public int damage; // Урон
+
         public int hardCooficient; // Коофицент сложности - СЛОЖНОСТЬ
         public int moveCooficient = 5; // Коофициент движения - для больших экранов и тд
-        public int damage; // Урон
 
         public virtual void Update() // Виртуальный метод
         {

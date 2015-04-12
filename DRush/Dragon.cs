@@ -12,8 +12,15 @@ namespace DRush
     class Dragon : GameObject
     {
 
+        Settings settings;
+        int []coonf;
+
         public Dragon(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
         {
+            settings = new Settings();
+            coonf = new int[6];
+            settings.GetData(ref coonf); 
+
             // Технические переменные:
             objectTexture = inputTexture;
             objectCoordinates = inputRectangle;
@@ -52,22 +59,24 @@ namespace DRush
                 objectCoordinates.X += moveCooficient;
             }
 
-            // Границы экрана - у нас типа шар
-            if (objectCoordinates.X < -5)
+            // Описание поворота
+
+            // Границы экрана
+            if (objectCoordinates.X < -20)
             {
-                objectCoordinates.X = 1580; // В будущем пойдет читать из конфига!
+                objectCoordinates.X = coonf[0] - 20; 
             }
-            if (objectCoordinates.X > 1600)
+            if (objectCoordinates.X > coonf[0] - 20)
             {
-                objectCoordinates.X = 0; // В будущем пойдет читать из конфига!
+                objectCoordinates.X = 0; 
             }
-            if (objectCoordinates.Y < -10)
+            if (objectCoordinates.Y < -20)
             {
-                objectCoordinates.Y = 900; // В будущем пойдет читать из конфига!
+                objectCoordinates.Y = coonf[1] - 10;
             }
-            if (objectCoordinates.Y > 910)
+            if (objectCoordinates.Y > coonf[1] - 10)
             {
-                objectCoordinates.Y = 0; // В будущем пойдет читать из конфига!
+                objectCoordinates.Y = 0;
             }
 
             // Создание выстрела

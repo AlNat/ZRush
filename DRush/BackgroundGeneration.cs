@@ -10,59 +10,71 @@ namespace DRush
 {
     class BackgroundGeneration
     {
+
+        public int[] coonf; // Коофициенты из настроек - проще один раз взять массив, чем много раз тянуть геттерами
+        public Settings settings; 
+
         int[,] back;
         Rectangle mainFrame = new Rectangle(0, 0, 100, 100); // Примитив чанка - пустой прямоугольник размерами 100х100
 
-        public BackgroundGeneration(Texture2D texture1) // Может лучше лист текстур? И как лучше организовать работу с конфигом?
-        {
+        public BackgroundGeneration()
+        { // Генерируем расположение элементов фона
 
-            int[,] back = new int[countOfChuncsX, countOfChuncsY];
-
+            coonf = new int [6]; // Создаем массив значений коофициентов.
+            settings = new Settings(); // Создали экземпляр класса настройки
+            settings.GetData(ref coonf); // Заполнили коофициенты
+            
+            back = new int[ coonf[4], coonf[5] ]; // Расположение тестур
             Random rnd = new Random();
-            for (int tX = 0; tX < countOfChuncsX; tX++) // Генерируем фон
+
+            for (int tX = 0; tX < coonf[4]; tX++) // Генерируем фон
             {
-                for (int tY = 0; tY < countOfChuncsY; tY++)
+                for (int tY = 0; tY < coonf[5]; tY++)
                 {
                     int rand = rnd.Next(1, 6);
-                    back[tX, tY] = rand; // Числа 1-2 - номера для текстур. TODO - словарь текстур
+                    back [tX, tY] = rand; // Числа 1-6 - номера для текстур. TODO - словарь текстур
 
-                    mainFrame.Y = yBackgroundCooficient * tY;
+                    mainFrame.Y = coonf[3] * tY;
                 }
-                mainFrame.X = xBackgroundCooficient * tX;
+                mainFrame.X = coonf[2] * tX;
             }
+
         }
 
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, ref Texture2D[] texture) // Передали массив текстур и все хорошо; ref - замечательная вешь
         { // Функция рисования
-            for (int tX = 0; tX < countOfChuncsX; tX++) // Отрисовывем фон несколькими проходами 
+            for (int tX = 0; tX < coonf[4]; tX++) // Отрисовывем фон несколькими проходами 
             {
-                for (int tY = 0; tY < countOfChuncsY; tY++)
+                for (int tY = 0; tY < coonf[5]; tY++)
                 {
-                    //spriteBatch.Draw (background[rand], mainFrame, Color.White); - не хочет из массива тянуть :(
-                    switch (back[tX, tY])
+
+                    switch (back[tX,tY]) 
                     {
+                        case 0:
+                            spriteBatch.Draw (texture[0], mainFrame, Color.White);
+                            break;
                         case 1:
-                            spriteBatch.Draw(background1, mainFrame, Color.White);
+                            spriteBatch.Draw (texture[1], mainFrame, Color.White);
                             break;
                         case 2:
-                            spriteBatch.Draw(background2, mainFrame, Color.White);
+                            spriteBatch.Draw (texture[2], mainFrame, Color.White);
                             break;
                         case 3:
-                            spriteBatch.Draw(background3, mainFrame, Color.White);
+                            spriteBatch.Draw (texture[3], mainFrame, Color.White);
                             break;
                         case 4:
-                            spriteBatch.Draw(background4, mainFrame, Color.White);
+                            spriteBatch.Draw (texture[4], mainFrame, Color.White);
                             break;
                         case 5:
-                            spriteBatch.Draw(background5, mainFrame, Color.White);
-                            break;
-                        default:
+                            spriteBatch.Draw (texture[5], mainFrame, Color.White);
                             break;
                     }
-                    mainFrame.Y = yBackgroundCooficient * tY;
+
+
+                    mainFrame.Y = coonf[3] * tY;
                 }
-                mainFrame.X = xBackgroundCooficient * tX;
+                mainFrame.X = coonf[2] * tX;
             }
         }
 
