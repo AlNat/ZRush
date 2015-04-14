@@ -10,8 +10,7 @@ namespace DRush
 {
     class BackgroundGeneration
     {
-
-        public int[] coonf; // Коофициенты из настроек - проще один раз взять массив, чем много раз тянуть геттерами
+        private Dictionary<string, int> coonfig; // Коофициенты из настроек
         public Settings settings; 
 
         int[,] back;
@@ -20,66 +19,89 @@ namespace DRush
         public BackgroundGeneration()
         { // Генерируем расположение элементов фона
 
-            coonf = new int [6]; // Создаем массив значений коофициентов.
             settings = new Settings(); // Создали экземпляр класса настройки
-            settings.GetData(ref coonf); // Заполнили коофициенты
-            
-            back = new int[ coonf[4], coonf[5] ]; // Расположение тестур
+            settings.GetData(out coonfig); // Заполнили коофициенты 
+
+            back = new int[coonfig["countOfChuncsX"], coonfig["countOfChuncsY"]]; // Расположение тестур
             Random rnd = new Random();
 
-            for (int tX = 0; tX < coonf[4]; tX++) // Генерируем фон
-            {
-                for (int tY = 0; tY < coonf[5]; tY++)
-                {
-                    int rand = rnd.Next(1, 6);
-                    back [tX, tY] = rand; // Числа 1-6 - номера для текстур. TODO - словарь текстур
+            // TODO - нормальная форма генерации
+            // Меньше деревень (потом тоже сделаем объектами), домов, озер. Больше травы, ферм, и лесов.
+            // Потом нормальная генерация полей около деревень и тд.
 
-                    mainFrame.Y = coonf[3] * tY;
+            for (int tX = 0; tX < coonfig["countOfChuncsX"]; tX++) // Генерируем фон
+            {
+
+                for (int tY = 0; tY < coonfig["countOfChuncsY"]; tY++)
+                {
+                    int rand = rnd.Next(0, 7);
+                    if (rand == 1)
+                    {
+                        rand = 0; // Удалили замок
+                    }
+                    back [tX, tY] = rand; // Числа 1-7 - номера для текстур. TODO - словарь текстур
+
                 }
-                mainFrame.X = coonf[2] * tX;
             }
+
+            // Расставили замки
+            back[0, 0] = 1; // Правый нижний
+            back[0, 1] = 1; // Правый верхний
+            back[1, 0] = 1; // Левый нижний
+            back[1, 1] = 1; // Левый верхний
 
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, ref Texture2D[] texture) // Передали массив текстур и все хорошо; ref - замечательная вешь
-        { // Функция рисования
-            for (int tX = 0; tX < coonf[4]; tX++) // Отрисовывем фон несколькими проходами 
+        public void Draw(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texture)//Texture2D[] texture) // Передали массив текстур и все хорошо;
+        { // Функция рисования  
+            for (int tX = 0; tX < coonfig["countOfChuncsX"]; tX++) // Отрисовывем фон несколькими проходами 
             {
-                for (int tY = 0; tY < coonf[5]; tY++)
+                
+                for (int tY = 0; tY < coonfig["countOfChuncsY"]; tY++)
                 {
 
-                    switch (back[tX,tY]) 
-                    {
+                    switch (back[tX,tY])
+                    {  // TODO СЛОВАРЬ
                         case 0:
-                            spriteBatch.Draw (texture[0], mainFrame, Color.White);
+                            spriteBatch.Draw (texture["grass"], mainFrame, Color.White);
                             break;
                         case 1:
-                            spriteBatch.Draw (texture[1], mainFrame, Color.White);
+                            spriteBatch.Draw (texture["castle"], mainFrame, Color.White);
                             break;
                         case 2:
-                            spriteBatch.Draw (texture[2], mainFrame, Color.White);
+                            spriteBatch.Draw(texture["home"], mainFrame, Color.White);
                             break;
                         case 3:
-                            spriteBatch.Draw (texture[3], mainFrame, Color.White);
+                            spriteBatch.Draw (texture["lake"], mainFrame, Color.White);
                             break;
                         case 4:
-                            spriteBatch.Draw (texture[4], mainFrame, Color.White);
+                            spriteBatch.Draw (texture["tree1"], mainFrame, Color.White);
                             break;
                         case 5:
-                            spriteBatch.Draw (texture[5], mainFrame, Color.White);
+                            spriteBatch.Draw (texture["tree2"], mainFrame, Color.White);
                             break;
+                        case 6:
+                            spriteBatch.Draw(texture["village"], mainFrame, Color.White);
+                            break;
+                        /*
+                        case 7:
+                            spriteBatch.Draw (texture["road"], mainFrame, Color.White);
+                            break;
+                        case 8:
+                            spriteBatch.Draw (texture["farm"], mainFrame, Color.White);
+                            break;                         
+                         */
                     }
-
-
-                    mainFrame.Y = coonf[3] * tY;
+                    mainFrame.Y = coonfig["yBackgroundCooficient"] * tY; // Продвинулись
                 }
-                mainFrame.X = coonf[2] * tX;
+                mainFrame.X = coonfig["xBackgroundCooficient"] * tX;
             }
         }
 
         public void Update()
         {
+            // TODO - обсчет горящего леса, построек и тд. 
 
         }
 

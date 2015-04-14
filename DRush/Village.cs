@@ -10,6 +10,7 @@ namespace DRush
 {
     class Village : GameObject
     {
+        // staticSetting = true;
 
         public Village(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
         {

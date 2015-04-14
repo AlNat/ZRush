@@ -11,8 +11,7 @@ namespace DRush
     class GameObject // Класс для обозначения некого примитива (в 20 кб, ага :) ) - от него происходят все остальные объекты
     {
 
-        // СЛОВАРЬ DICTIONAY, МУВ ОБДЖЕТ - to think
-
+        // СЛОВАРЬ, ИНТЕРФЕЙС - подумать
 
         // Переменные описания объекта
         // DISCLAMER = Я конечно понимаю, что не стоит делать их public, но очень лень геттеры\сеттеры делать.
@@ -58,7 +57,7 @@ namespace DRush
                 return false;
         }
 
-        public bool IsStatic()
+        public bool IsStatic() // ИНТЕРФЕЙС
         {
             return staticSetting;
         } 

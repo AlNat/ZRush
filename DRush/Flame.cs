@@ -17,6 +17,11 @@ namespace DRush
             objectCoordinates = inputRectangle;
         }
 
+        public override void Update() // Метод обновления
+        {
+            
+        }
+
 
     }
 }

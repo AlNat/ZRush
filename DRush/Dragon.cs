@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+//using System.Linq;
+//using System.Text;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,13 +13,12 @@ namespace DRush
     {
 
         Settings settings;
-        int []coonf;
+        Dictionary<string, int> coonfig;
 
         public Dragon(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
         {
             settings = new Settings();
-            coonf = new int[6];
-            settings.GetData(ref coonf); 
+            settings.GetData (out coonfig); 
 
             // Технические переменные:
             objectTexture = inputTexture;
@@ -64,27 +63,32 @@ namespace DRush
             // Границы экрана
             if (objectCoordinates.X < -20)
             {
-                objectCoordinates.X = coonf[0] - 20; 
+                objectCoordinates.X = coonfig["widthOfScreen"] - 20; 
             }
-            if (objectCoordinates.X > coonf[0] - 20)
+            if (objectCoordinates.X > coonfig["widthOfScreen"] - 20)
             {
-                objectCoordinates.X = 0; 
+                objectCoordinates.X = -10; 
             }
             if (objectCoordinates.Y < -20)
             {
-                objectCoordinates.Y = coonf[1] - 10;
+                objectCoordinates.Y = coonfig["heightOfScreen"] - 10;
             }
-            if (objectCoordinates.Y > coonf[1] - 10)
+            if (objectCoordinates.Y > coonfig["heightOfScreen"] - 10)
             {
-                objectCoordinates.Y = 0;
+                objectCoordinates.Y = -5;
             }
 
             // Создание выстрела
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) )
-            { 
-                
+            {
+                //Shoot();        
             }
 
+        }
+
+        public void Shoot (ref Rectangle rectangle) {
+            rectangle.X = objectCoordinates.X;
+            rectangle.Y = objectCoordinates.Y;        
         }
 
     }
