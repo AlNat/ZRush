@@ -17,9 +17,16 @@ namespace DRush {// Пространство имен именем нашей и
 
         private Settings settings;
         private BackgroundGeneration background;
+        private Dictionary<string, Texture2D> texture;
+        /*
         private Dragon playerDragon; // Дракон
         private Flame playerFlame;
-        private Dictionary<string, Texture2D> texture;
+         */
+
+        // Это для фабрики:
+        private GameObject playerDragon;
+        private GameObject playerFlame;
+
 
         public Game() // Конструктор по умолчанию
         {
@@ -47,7 +54,7 @@ namespace DRush {// Пространство имен именем нашей и
   
         protected override void LoadContent()
         {
-            // СЮДА ЗАГРУАЕМ ТЕКСТУРЫ
+
             spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
             // Словарь текстур:
@@ -60,6 +67,7 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("tree2", Content.Load<Texture2D>("texture_tree2"));
             texture.Add("village", Content.Load<Texture2D>("texture_village"));
 
+            /*
             // Создаем экземпляр дракона и инициализирем его
             playerDragon = new Dragon(
                 Content.Load<Texture2D>("texture_reddragon"), 
@@ -68,11 +76,29 @@ namespace DRush {// Пространство имен именем нашей и
                     (settings.GetHeightOfScreen() / 2), 
                     180, 
                     100
-                    )
+                )
             );
             playerFlame = new Flame(
                 Content.Load<Texture2D>("texture_flame"),
                 new Rectangle(0, 0, 100, 100)
+            );
+            */
+
+            playerDragon = GameObject.GameObjectFactory(
+                                "dragon",
+                                Content.Load<Texture2D>("texture_reddragon"),
+                                new Rectangle(
+                                    (settings.GetWidthOfScreen() / 2),
+                                    (settings.GetHeightOfScreen() / 2),
+                                    180,
+                                    100
+                                )
+            );
+
+            playerFlame = GameObject.GameObjectFactory(
+                            "flame",
+                            Content.Load<Texture2D>("texture_flame"),
+                            new Rectangle(0, 0, 100, 100)
             );
 
         }

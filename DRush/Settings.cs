@@ -5,6 +5,7 @@ namespace DRush
 {
     class Settings
     {
+        // static - ибо настройки везде одинаковые
         // Разрешение экрана
         static int widthOfScreen = 1600;
         static int heightOfScreen = 900;
@@ -14,16 +15,16 @@ namespace DRush
         static int yBackgroundCooficient = 100;
 
         // Кол-во чанков(блоков) 
-        static int countOfChuncsX = widthOfScreen / xBackgroundCooficient;
-        static int countOfChuncsY = heightOfScreen / yBackgroundCooficient; 
+        static int countOfChuncsX;// = widthOfScreen / xBackgroundCooficient;
+        static int countOfChuncsY;// = heightOfScreen / yBackgroundCooficient; 
 
         public Settings () 
         {
-            // TODO - реализовать работу с конфигурационными файлами
+            ReadXML();
         }
 
         public void GetData(out Dictionary<string, int> data) // ref и out - отличные инструменты. ref - это передача по ссылке, out - вариант "отложенной инициализации"
-        { // Вернули значения коофициентов - TODO СЛОВАРЬ
+        {
 
             data = new Dictionary<string, int>();
             data.Add("widthOfScreen", widthOfScreen);
@@ -32,14 +33,17 @@ namespace DRush
             data.Add("yBackgroundCooficient", yBackgroundCooficient);
             data.Add("countOfChuncsX", countOfChuncsX);
             data.Add("countOfChuncsY", countOfChuncsY);
+        }
+
+        public void ReadXML() // Реализовал функцией, а не конструтором, ибо возмоно обновление на лету и придется функцию вызывать заново
+        {
             /*
-            data[0] = widthOfScreen; // 0
-            data[1] = heightOfScreen; // 1
-            data[2] = xBackgroundCooficient; // 2
-            data[3] = yBackgroundCooficient; // 3
-            data[4] = countOfChuncsX; // 4
-            data[5] = countOfChuncsY; // 5
+                
             */
+
+            // TODO - реализовать работу с конфигурационными файлами
+            countOfChuncsX = widthOfScreen / xBackgroundCooficient;
+            countOfChuncsY = heightOfScreen / yBackgroundCooficient; 
         }
 
         public int GetWidthOfScreen()

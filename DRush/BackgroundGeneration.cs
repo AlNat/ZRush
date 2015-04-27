@@ -11,7 +11,7 @@ namespace DRush
     class BackgroundGeneration
     {
         private Dictionary<string, int> coonfig; // Коофициенты из настроек
-        public Settings settings; 
+        private Settings settings; 
 
         int[,] back;
         Rectangle mainFrame = new Rectangle(0, 0, 100, 100); // Примитив чанка - пустой прямоугольник размерами 100х100
@@ -23,23 +23,30 @@ namespace DRush
             settings.GetData(out coonfig); // Заполнили коофициенты 
 
             back = new int[coonfig["countOfChuncsX"], coonfig["countOfChuncsY"]]; // Расположение тестур
-            Random rnd = new Random();
-
-            // TODO - нормальная форма генерации
-            // Меньше деревень (потом тоже сделаем объектами), домов, озер. Больше травы, ферм, и лесов.
-            // Потом нормальная генерация полей около деревень и тд.
+            Random rnd = new Random(); // Создали экзмепляр рандома
 
             for (int tX = 0; tX < coonfig["countOfChuncsX"]; tX++) // Генерируем фон
             {
 
                 for (int tY = 0; tY < coonfig["countOfChuncsY"]; tY++)
                 {
+                    // TODO - нормальный алгоритм генерации!
+                    // Меньше деревень (потом тоже сделаем объектами), домов, озер. Больше травы, ферм, и лесов. Потом нормальная генерация полей около деревень и тд.
+
                     int rand = rnd.Next(0, 7);
                     if (rand == 1)
                     {
                         rand = 0; // Удалили замок
                     }
-                    back [tX, tY] = rand; // Числа 1-7 - номера для текстур. TODO - словарь текстур
+                    if (rand == 6) // Проверили деревню
+                    {
+                        int t = rnd.Next(1, 3); // Уменьшили шанс на выпадение деревни в 3 раз
+                        if (t != 2)
+                        {
+                            rand = rnd.Next(2, 4);
+                        }
+                    }
+                    back [tX, tY] = rand; // Числа 1-7 - номера для текстур.
 
                 }
             }
