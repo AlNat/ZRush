@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Settings>
+  <version value="0.01" />
+  <graphics>
+    <widthOfScreen value="1600" />
+    <heightOfScreen value="900" />
+    <xBackgroundCooficient value="100" />
+    <yBackgroundCooficient value="100" />
+  </graphics>
+  <monsters>
+    <hardCooficient value="1" />
+    <moveCooficient value="1" />
+  </monsters>
+</Settings>

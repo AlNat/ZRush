@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DRush
 {
-    class Flame : GameObject
+    public class Flame : GameObject
     {
 
         public Flame(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор

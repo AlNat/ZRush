@@ -26,6 +26,7 @@ namespace DRush {// Пространство имен именем нашей и
         // Это для фабрики:
         private GameObject playerDragon;
         private GameObject playerFlame;
+        private GameObjectFactory factory;
 
 
         public Game() // Конструктор по умолчанию
@@ -84,18 +85,19 @@ namespace DRush {// Пространство имен именем нашей и
             );
             */
 
-            playerDragon = GameObject.GameObjectFactory(
+            factory = new GameObjectFactory(); // Хз, но моет проблема в этом
+
+            playerDragon = factory.Factory(
                                 "dragon",
                                 Content.Load<Texture2D>("texture_reddragon"),
                                 new Rectangle(
                                     (settings.GetWidthOfScreen() / 2),
                                     (settings.GetHeightOfScreen() / 2),
-                                    180,
-                                    100
+                                    180, 100
                                 )
             );
 
-            playerFlame = GameObject.GameObjectFactory(
+            playerFlame = factory.Factory(
                             "flame",
                             Content.Load<Texture2D>("texture_flame"),
                             new Rectangle(0, 0, 100, 100)

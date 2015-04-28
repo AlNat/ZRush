@@ -1,22 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.XPath;
+
+
 namespace DRush
 {
     class Settings
-    {
-        // static - ибо настройки везде одинаковые
+    {   
+        //static int widthOfScreen = 1600;
+        //static int heightOfScreen = 900;
+        //static int xBackgroundCooficient = 100;
+        //static int yBackgroundCooficient = 100;
+
         // Разрешение экрана
-        static int widthOfScreen = 1600;
-        static int heightOfScreen = 900;
+        int widthOfScreen;
+        int heightOfScreen;
 
         // Коофициент для формул 
-        static int xBackgroundCooficient = 100;
-        static int yBackgroundCooficient = 100;
+
+        int xBackgroundCooficient;
+        int yBackgroundCooficient;
 
         // Кол-во чанков(блоков) 
-        static int countOfChuncsX;// = widthOfScreen / xBackgroundCooficient;
-        static int countOfChuncsY;// = heightOfScreen / yBackgroundCooficient; 
+        static int countOfChuncsX;
+        static int countOfChuncsY; 
 
         public Settings () 
         {
@@ -37,11 +47,24 @@ namespace DRush
 
         public void ReadXML() // Реализовал функцией, а не конструтором, ибо возмоно обновление на лету и придется функцию вызывать заново
         {
-            /*
-                
-            */
+            string inputAttribute;
+            XDocument xmlSettings = XDocument.Load("settings.xml"); // Отрыли доумент
 
-            // TODO - реализовать работу с конфигурационными файлами
+            // Парсим вручную дерево XML и читаем нуный элемент
+            inputAttribute = xmlSettings.Element("Settings").Element("graphics").Element("widthOfScreen").Attribute("value").Value;
+            widthOfScreen = Convert.ToInt32(inputAttribute);
+            // Это эквавалентно строчке widthOfScreen = Convert.ToInt32( xmlSettings.Element("Settings").Element("graphics").Element("widthOfScreen").Attribute("value").Value );
+            // Но слишком сложно читать да и вообще...
+
+            inputAttribute = xmlSettings.Element("Settings").Element("graphics").Element("heightOfScreen").Attribute("value").Value;
+            heightOfScreen = Convert.ToInt32(inputAttribute);
+
+            inputAttribute = xmlSettings.Element("Settings").Element("graphics").Element("xBackgroundCooficient").Attribute("value").Value;
+            xBackgroundCooficient = Convert.ToInt32(inputAttribute);
+
+            inputAttribute = xmlSettings.Element("Settings").Element("graphics").Element("yBackgroundCooficient").Attribute("value").Value;
+            yBackgroundCooficient = Convert.ToInt32(inputAttribute);
+
             countOfChuncsX = widthOfScreen / xBackgroundCooficient;
             countOfChuncsY = heightOfScreen / yBackgroundCooficient; 
         }

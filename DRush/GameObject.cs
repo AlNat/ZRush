@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DRush
 {
-    class GameObject // Класс для обозначения некого примитива (в 20 кб, ага :) ) - от него "происходят" все остальные объекты
+    public class GameObject // Класс для обозначения некого примитива (в 20 кб, ага :) ) - от него "происходят" все остальные объекты
     {
 
         // Переменные описания объекта
@@ -30,27 +30,6 @@ namespace DRush
         protected int hardCooficient; // Коофицент сложности
         protected int moveCooficient = 5; // Коофициент движения - для больших экранов и тд - 
         //TODO - вынести в настройки!
-
-        // Впихнуть невпихуемое !!!
-        public static GameObject GameObjectFactory(string type, Texture2D inputTexture, Rectangle inputRectangle)
-        { // 3 аргумента у фабрики, первый - сам выбор из фабрики. Два других - стандартные конструкторы
-            // Разумеется, это нифига не паттерн и даже не фабрика, но все-же.
-            // И  тому-же он требует чтоб метод был статик, что плохо.
-            // Но Who cares - это всего лишь для примера
-            if (type.Equals("dragon"))
-            {
-                return new Dragon(inputTexture, inputRectangle);
-            }
-            else if (type.Equals("flame"))
-            {
-                return new Flame(inputTexture, inputRectangle);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         
         public virtual void Update() // Виртуальный метод
         {

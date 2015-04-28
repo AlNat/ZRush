@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DRush
 {
-    class Dragon : GameObject
+    public class Dragon : GameObject
     {
 
         Settings settings;
