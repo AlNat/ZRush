@@ -69,14 +69,15 @@ namespace DRush
             countOfChuncsY = heightOfScreen / yBackgroundCooficient; 
         }
 
-        public int GetWidthOfScreen()
-        {
-            return widthOfScreen;
-        }
-        public int GetHeightOfScreen()
-        {
-            return heightOfScreen;
+        public void WriteXML(ref Dictionary<string, int> data)
+        {// Вызываем его, когда игро вызвал настройки и изменил их
+            // Принимаем словарь настроек и записываем их
+
         }
 
+        public void Change()
+        {
+           
+        }
     }
 }

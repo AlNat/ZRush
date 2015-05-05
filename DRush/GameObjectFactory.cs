@@ -31,13 +31,12 @@ namespace DRush
 
         public GameObject Factory (String name, Texture2D inputTexture, Rectangle inputRectangle)
         { 
-             //GameObject obj = null;
+            GameObject obj = null;
 
             if (name.Equals("dragon"))
             {
                 obj = new Dragon(inputTexture, inputRectangle);
-            }
-            else if (name.Equals("flame"))
+            } else if (name.Equals("flame"))
             {
                 obj = new Flame(inputTexture, inputRectangle);
             }

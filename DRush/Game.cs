@@ -4,59 +4,43 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Graphics;
+
 
 namespace DRush {// Пространство имен именем нашей игры
 
-    public class Game : Microsoft.Xna.Framework.Game // Класс игра
+    public class Game //: Microsoft.Xna.Framework.Game // Класс игра
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        //GraphicsDeviceManager graphics;
+        //SpriteBatch spriteBatch;
 
         private Settings settings;
         private BackgroundGeneration background;
         private Dictionary<string, Texture2D> texture;
-        /*
+        private Dictionary<string, int> coonfig; // Коофициенты из настроек
+
         private Dragon playerDragon; // Дракон
         private Flame playerFlame;
-         */
-
-        // Это для фабрики:
-        private GameObject playerDragon;
-        private GameObject playerFlame;
-        private GameObjectFactory factory;
-
-
-        public Game() // Конструктор по умолчанию
+        
+        public Game() // Конструктор
         {
-            graphics = new GraphicsDeviceManager(this);
+
+            // Создание текстур
+            // Игрока, 
             settings = new Settings();
             background = new BackgroundGeneration();
 
-            Content.RootDirectory = "Content";
-            this.Window.Title = "DRush"; // Название окна
+            Generate();
+            Update();
 
-            graphics.PreferredBackBufferWidth = settings.GetWidthOfScreen(); // Разрешение экрана
-            graphics.PreferredBackBufferHeight = settings.GetHeightOfScreen();
-            graphics.IsFullScreen = true; // Полный экран SETTING
-
-        }
-
-
-        protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
-
-            base.Initialize();
         }
 
   
-        protected override void LoadContent()
+        public void LoadContent()
         {
 
-            spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
+            // spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
             // Словарь текстур:
             texture = new Dictionary<string, Texture2D>();
@@ -67,51 +51,47 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("tree1", Content.Load<Texture2D>("texture_tree1"));
             texture.Add("tree2", Content.Load<Texture2D>("texture_tree2"));
             texture.Add("village", Content.Load<Texture2D>("texture_village"));
+            texture.Add ("reddragon",Content.Load<Texture2D>("texture_reddragon"));
+            texture.Add ("flame",Content.Load<Texture2D>("texture_flame"));
+        }
 
-            /*
+        protected void Generate()
+        {
+            // 
             // Создаем экземпляр дракона и инициализирем его
             playerDragon = new Dragon(
-                Content.Load<Texture2D>("texture_reddragon"), 
+                texture["reddragon"],
                 new Rectangle(
-                    (settings.GetWidthOfScreen() / 2), 
-                    (settings.GetHeightOfScreen() / 2), 
-                    180, 
+                    (coonfig["widthOfScreen"] / 2),
+                    (coonfig["heightOfScreen"] / 2),
+                    180,
                     100
                 )
             );
             playerFlame = new Flame(
-                Content.Load<Texture2D>("texture_flame"),
+                texture["flame"],
                 new Rectangle(0, 0, 100, 100)
             );
-            */
-
-            factory = new GameObjectFactory(); // Хз, но моет проблема в этом
-
-            playerDragon = factory.Factory(
-                                "dragon",
-                                Content.Load<Texture2D>("texture_reddragon"),
-                                new Rectangle(
-                                    (settings.GetWidthOfScreen() / 2),
-                                    (settings.GetHeightOfScreen() / 2),
-                                    180, 100
-                                )
-            );
-
-            playerFlame = factory.Factory(
-                            "flame",
-                            Content.Load<Texture2D>("texture_flame"),
-                            new Rectangle(0, 0, 100, 100)
-            );
-
         }
 
 
-        protected override void Update(GameTime gameTime)
+        /*
+         *  Сохранять все переменные из этого класса для сохранения
+         *  
+         *  Сохранение, отмена и вперед (ворд). 
+         * 
+         *  Паттерн Команда.
+         *  
+         * 
+         */
+
+        protected void Update()
         {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                this.Exit();
+                // Переход в меню
+                //this.Exit();
             }
 
             // TODO каждые n секунд генерировать нового врага, из замка.
@@ -125,14 +105,13 @@ namespace DRush {// Пространство имен именем нашей и
             // ToDo - обновлять пламя и врагов
             */
 
-            base.Update(gameTime);
         }
 
 
-        protected override void Draw(GameTime gameTime)
+        public void Draw(SpriteBatch spriteBatch)
         {
 
-            GraphicsDevice.Clear(Color.Black); // Цвет начального фона
+            //GraphicsDevice.Clear(Color.Black); // Цвет начального фона
 
 
             spriteBatch.Begin(); // Начало прорисовки фона
@@ -151,7 +130,7 @@ namespace DRush {// Пространство имен именем нашей и
             spriteBatch.End(); // Конец прорисовки
 
 
-            base.Draw(gameTime);
+            //base.Draw(gameTime);
         }
 
 

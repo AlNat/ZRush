@@ -7,9 +7,10 @@ namespace DRush
     {
         static void Main(string[] args)
         {
-            using (MainMenu main = new MainMenu())
-            {
-                main.Run();
+            
+            //using (MainMenu main = new MainMenu())
+            //{
+            MainMenu main = new MainMenu();
 
                 /*
                  * Иерархия наследования
@@ -27,7 +28,7 @@ namespace DRush
                  *
                  */
 
-            }
+            //}
         }
     }
 #endif
