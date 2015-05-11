@@ -9,11 +9,14 @@ using System.Xml.XPath;
 namespace DRush
 {
     class Settings
-    {   
-        //static int widthOfScreen = 1600;
-        //static int heightOfScreen = 900;
-        //static int xBackgroundCooficient = 100;
-        //static int yBackgroundCooficient = 100;
+    {
+        /* 
+         * Класс настроек.
+         * При вызове конструктора читает xml, где хранятся настройки.
+         * 
+         * Имеет сигнал об обновлении
+         * 
+         */
 
         // Разрешение экрана
         int widthOfScreen;
@@ -26,9 +29,11 @@ namespace DRush
 
         // Кол-во чанков(блоков) 
         static int countOfChuncsX;
-        static int countOfChuncsY; 
+        static int countOfChuncsY;
 
-        public Settings () 
+        bool updateFlag;  // Флаг обновления
+
+        public Settings()
         {
             ReadXML();
         }
@@ -48,7 +53,7 @@ namespace DRush
         public void ReadXML() // Реализовал функцией, а не конструтором, ибо возмоно обновление на лету и придется функцию вызывать заново
         {
             string inputAttribute;
-            XDocument xmlSettings = XDocument.Load("settings.xml"); // Отрыли доумент
+            XDocument xmlSettings = XDocument.Load("settings.xml"); // Открыли доумент
 
             // Парсим вручную дерево XML и читаем нуный элемент
             inputAttribute = xmlSettings.Element("Settings").Element("graphics").Element("widthOfScreen").Attribute("value").Value;
@@ -66,17 +71,33 @@ namespace DRush
             yBackgroundCooficient = Convert.ToInt32(inputAttribute);
 
             countOfChuncsX = widthOfScreen / xBackgroundCooficient;
-            countOfChuncsY = heightOfScreen / yBackgroundCooficient; 
+            countOfChuncsY = heightOfScreen / yBackgroundCooficient;
+
+            updateFlag = true;
         }
 
-        public int GetWidthOfScreen()
-        {
-            return widthOfScreen;
-        }
-        public int GetHeightOfScreen()
-        {
-            return heightOfScreen;
+        public void WriteXML(ref Dictionary<string, int> data)
+        {// Вызываем его, когда игро вызвал настройки и изменил их
+            // Принимаем словарь настроек и записываем их
+
+            updateFlag = true;
         }
 
+        public void Change()
+        {
+            // Фунция для изменения пользователем.
+            updateFlag = true;
+        }
+
+        public bool wasUpdate()
+        { // Геттер флага обновления
+            return updateFlag;
+        }
+
+        public void Update()
+        { // При вызове обновления читаем файл и обновляем флаг
+            ReadXML();
+            updateFlag = false;
+        }
     }
 }

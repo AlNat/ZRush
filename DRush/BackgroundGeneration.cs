@@ -33,7 +33,7 @@ namespace DRush
                     // TODO - нормальный алгоритм генерации!
                     // Меньше деревень (потом тоже сделаем объектами), домов, озер. Больше травы, ферм, и лесов. Потом нормальная генерация полей около деревень и тд.
 
-                    int rand = rnd.Next(0, 7);
+                    int rand = rnd.Next(0, 8);
                     if (rand == 1)
                     {
                         rand = 0; // Удалили замок
@@ -69,7 +69,7 @@ namespace DRush
                 {
 
                     switch (back[tX,tY])
-                    {  // TODO СЛОВАРЬ
+                    { 
                         case 0:
                             spriteBatch.Draw (texture["grass"], mainFrame, Color.White);
                             break;
@@ -91,14 +91,9 @@ namespace DRush
                         case 6:
                             spriteBatch.Draw(texture["village"], mainFrame, Color.White);
                             break;
-                        /*
                         case 7:
-                            spriteBatch.Draw (texture["road"], mainFrame, Color.White);
-                            break;
-                        case 8:
                             spriteBatch.Draw (texture["farm"], mainFrame, Color.White);
                             break;                         
-                         */
                     }
                     mainFrame.Y = coonfig["yBackgroundCooficient"] * tY; // Продвинулись
                 }

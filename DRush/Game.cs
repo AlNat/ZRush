@@ -18,28 +18,23 @@ namespace DRush {// Пространство имен именем нашей и
         private Settings settings;
         private BackgroundGeneration background;
         private Dictionary<string, Texture2D> texture;
-        /*
+        private Dictionary<string, int> coonfig;
+        
         private Dragon playerDragon; // Дракон
         private Flame playerFlame;
-         */
-
-        // Это для фабрики:
-        private GameObject playerDragon;
-        private GameObject playerFlame;
-        private GameObjectFactory factory;
-
 
         public Game() // Конструктор по умолчанию
         {
             graphics = new GraphicsDeviceManager(this);
             settings = new Settings();
+            settings.GetData(out coonfig);
             background = new BackgroundGeneration();
 
             Content.RootDirectory = "Content";
             this.Window.Title = "DRush"; // Название окна
 
-            graphics.PreferredBackBufferWidth = settings.GetWidthOfScreen(); // Разрешение экрана
-            graphics.PreferredBackBufferHeight = settings.GetHeightOfScreen();
+            graphics.PreferredBackBufferWidth = coonfig["widthOfScreen"]; // Разрешение экрана
+            graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
             graphics.IsFullScreen = true; // Полный экран SETTING
 
         }
@@ -67,14 +62,15 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("tree1", Content.Load<Texture2D>("texture_tree1"));
             texture.Add("tree2", Content.Load<Texture2D>("texture_tree2"));
             texture.Add("village", Content.Load<Texture2D>("texture_village"));
+            texture.Add("farm", Content.Load<Texture2D>("texture_farm"));
 
-            /*
+            
             // Создаем экземпляр дракона и инициализирем его
             playerDragon = new Dragon(
                 Content.Load<Texture2D>("texture_reddragon"), 
                 new Rectangle(
-                    (settings.GetWidthOfScreen() / 2), 
-                    (settings.GetHeightOfScreen() / 2), 
+                    (coonfig["widthOfScreen"] / 2),
+                    (coonfig["heightOfScreen"] / 2), 
                     180, 
                     100
                 )
@@ -83,26 +79,7 @@ namespace DRush {// Пространство имен именем нашей и
                 Content.Load<Texture2D>("texture_flame"),
                 new Rectangle(0, 0, 100, 100)
             );
-            */
-
-            factory = new GameObjectFactory(); // Хз, но моет проблема в этом
-
-            playerDragon = factory.Factory(
-                                "dragon",
-                                Content.Load<Texture2D>("texture_reddragon"),
-                                new Rectangle(
-                                    (settings.GetWidthOfScreen() / 2),
-                                    (settings.GetHeightOfScreen() / 2),
-                                    180, 100
-                                )
-            );
-
-            playerFlame = factory.Factory(
-                            "flame",
-                            Content.Load<Texture2D>("texture_flame"),
-                            new Rectangle(0, 0, 100, 100)
-            );
-
+            
         }
 
 
@@ -125,7 +102,6 @@ namespace DRush {// Пространство имен именем нашей и
             // ToDo - обновлять пламя и врагов
             */
 
-            base.Update(gameTime);
         }
 
 
