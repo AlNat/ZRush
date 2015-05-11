@@ -36,27 +36,18 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
             graphics.IsFullScreen = true; // Полный экран SETTING
 
-            int choose = 1;
-
-            switch (choose)
-            {
-                case 1: game = new Game(texture); break;
-                case 2: settings.Change(); break;
-                case 3: this.Exit(); break;
-            }
-
-            // ToDO реализовать наследование от класса игра
+            Welcome();
         }
 
         // Изменение состояний. Флаги, следить за состоянием.
-
+        /*
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
 
             base.Initialize();
         }
-
+        */
         // ВОПРОС - КАК ПЕРЕДАТЬ ТЕКСТУРЫ В КЛАСС GAME ???
 
         protected override void LoadContent()
@@ -81,12 +72,31 @@ namespace DRush {// Пространство имен именем нашей и
         {
             // TODO - Add signals here
             game.Update();
-            base.Update(gameTime);
+
+            if (settings.wasUpdate() == true)
+            {
+                settings.Update();
+            }
+
         }
 
         public void Draw()
         {
             game.Draw(spriteBatch);
+        }
+
+        private void Welcome()
+        {
+            int choose = 1;
+
+            switch (choose)
+            {
+                case 1: game = new Game(texture); break;
+                case 2: settings.Change(); break;
+                case 3: this.Exit(); break;
+            }
+
+
         }
 
     }

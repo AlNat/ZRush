@@ -27,9 +27,6 @@ namespace DRush {// Пространство имен именем нашей и
         public Game (Dictionary<string, Texture2D> loadDictionary) // Конструктор
         {
 
-            // Создание текстур
-            // Игрока, 
-
             texture = new Dictionary<string, Texture2D>(loadDictionary); // Скопировали тексутры
             settings = new Settings();
             background = new BackgroundGeneration();
@@ -62,7 +59,6 @@ namespace DRush {// Пространство имен именем нашей и
 
         protected void Generate()
         {
-            // 
             // Создаем экземпляр дракона и инициализирем его
             playerDragon = new Dragon ( texture["reddragon"],
                 new Rectangle(
@@ -85,15 +81,29 @@ namespace DRush {// Пространство имен именем нашей и
          *  Сохранение, отмена и вперед (ворд). 
          * 
          *  Паттерн Команда.
-         *  
          * 
          */
+
+
+        /// <summary>
+        /// Есть проблемы во взаимодейтсвии main menu и game.
+        /// Текстуры, выход по клику ESC
+        /// И видимо будут другие
+        /// 
+        /// Как это лучше исправить - наследовать game от game или что
+        /// 
+        /// 
+        /// Второе - паттерн комманда.
+        /// Все действия как объекты?
+        /// Противоречие с ООП
+        /// </summary>
 
         public void Update()
         {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
+
                 // Переход в меню
                 //this.Exit();
             }
@@ -117,7 +127,6 @@ namespace DRush {// Пространство имен именем нашей и
 
             //GraphicsDevice.Clear(Color.Black); // Цвет начального фона
 
-
             spriteBatch.Begin(); // Начало прорисовки фона
 
             background.Draw (spriteBatch, texture); // Прорисовали фон
@@ -133,8 +142,6 @@ namespace DRush {// Пространство имен именем нашей и
 
             spriteBatch.End(); // Конец прорисовки
 
-
-            //base.Draw(gameTime);
         }
 
 
