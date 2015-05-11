@@ -4,8 +4,9 @@ using System.Linq;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 
 namespace DRush {// Пространство имен именем нашей игры
@@ -22,28 +23,30 @@ namespace DRush {// Пространство имен именем нашей и
 
         private Dragon playerDragon; // Дракон
         private Flame playerFlame;
-        
-        public Game() // Конструктор
+
+        public Game (Dictionary<string, Texture2D> loadDictionary) // Конструктор
         {
 
             // Создание текстур
             // Игрока, 
+
+            texture = new Dictionary<string, Texture2D>(loadDictionary); // Скопировали тексутры
             settings = new Settings();
             background = new BackgroundGeneration();
 
             Generate();
-            Update();
-
+            //Update();
         }
 
-  
-        public void LoadContent()
-        {
+        
+        //public void LoadContent()
+        //{
 
             // spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
             // Словарь текстур:
-            texture = new Dictionary<string, Texture2D>();
+            //texture = new Dictionary<string, Texture2D>();
+         /*
             texture.Add("grass", Content.Load<Texture2D>("texture_grass"));
             texture.Add("castle", Content.Load<Texture2D>("texture_castle"));
             texture.Add("home", Content.Load<Texture2D>("texture_home"));
@@ -53,14 +56,15 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("village", Content.Load<Texture2D>("texture_village"));
             texture.Add ("reddragon",Content.Load<Texture2D>("texture_reddragon"));
             texture.Add ("flame",Content.Load<Texture2D>("texture_flame"));
+            texture.Add ("farm", Content.Load<Texture2D>("texture_farm"));
         }
+        */
 
         protected void Generate()
         {
             // 
             // Создаем экземпляр дракона и инициализирем его
-            playerDragon = new Dragon(
-                texture["reddragon"],
+            playerDragon = new Dragon ( texture["reddragon"],
                 new Rectangle(
                     (coonfig["widthOfScreen"] / 2),
                     (coonfig["heightOfScreen"] / 2),
@@ -85,7 +89,7 @@ namespace DRush {// Пространство имен именем нашей и
          * 
          */
 
-        protected void Update()
+        public void Update()
         {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
