@@ -19,14 +19,15 @@ namespace DRush {// Пространство имен именем нашей и
         Game game;
         Settings settings;
         Dictionary<string, int> coonfig; // Коофициенты из настроек
-        Dictionary<string, Texture2D> texture;
+        Dictionary<string, Texture2D> textures;
 
         public MainMenu() // Конструктор по умолчанию
         {
 
             graphics = new GraphicsDeviceManager(this);
-            //spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
+            spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
             settings = new Settings();
+            textures = new Dictionary<string, Texture2D>();
 
             Content.RootDirectory = "Content";
             this.Window.Title = "DRush"; // Название окна
@@ -36,6 +37,8 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
             graphics.IsFullScreen = true; // Полный экран SETTING
 
+
+            LoadContent();
             Welcome();
         }
 
@@ -50,24 +53,25 @@ namespace DRush {// Пространство имен именем нашей и
         */
         // ВОПРОС - КАК ПЕРЕДАТЬ ТЕКСТУРЫ В КЛАСС GAME ???
 
+        
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
-
+            //spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
+            
             // Словарь текстур:
-            texture = new Dictionary<string, Texture2D>();
-            texture.Add("grass", Content.Load<Texture2D>("texture_grass"));
-            texture.Add("castle", Content.Load<Texture2D>("texture_castle"));
-            texture.Add("home", Content.Load<Texture2D>("texture_home"));
-            texture.Add("lake", Content.Load<Texture2D>("texture_lake"));
-            texture.Add("tree1", Content.Load<Texture2D>("texture_tree1"));
-            texture.Add("tree2", Content.Load<Texture2D>("texture_tree2"));
-            texture.Add("village", Content.Load<Texture2D>("texture_village"));
-            texture.Add("reddragon", Content.Load<Texture2D>("texture_reddragon"));
-            texture.Add("flame", Content.Load<Texture2D>("texture_flame"));
-            texture.Add("farm", Content.Load<Texture2D>("texture_farm"));
+           
+            textures.Add("grass", Content.Load<Texture2D>("texture_grass"));
+            textures.Add("castle", Content.Load<Texture2D>("texture_castle"));
+            textures.Add("home", Content.Load<Texture2D>("texture_home"));
+            textures.Add("lake", Content.Load<Texture2D>("texture_lake"));
+            textures.Add("tree1", Content.Load<Texture2D>("texture_tree1"));
+            textures.Add("tree2", Content.Load<Texture2D>("texture_tree2"));
+            textures.Add("village", Content.Load<Texture2D>("texture_village"));
+            textures.Add("reddragon", Content.Load<Texture2D>("texture_reddragon"));
+            textures.Add("flame", Content.Load<Texture2D>("texture_flame"));
+            textures.Add("farm", Content.Load<Texture2D>("texture_farm"));
         }
-
+        
         protected override void Update(GameTime gameTime)
         {
             // TODO - Add signals here
@@ -91,7 +95,7 @@ namespace DRush {// Пространство имен именем нашей и
 
             switch (choose)
             {
-                case 1: game = new Game(texture); break;
+                case 1: game = new Game(textures); break;
                 case 2: settings.Change(); break;
                 case 3: this.Exit(); break;
             }

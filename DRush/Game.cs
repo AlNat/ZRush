@@ -24,32 +24,34 @@ namespace DRush {// Пространство имен именем нашей и
         private Dragon playerDragon; // Дракон
         private Flame playerFlame;
 
+        //public Game(SpriteBatch spriteBatch) // Конструктор
         public Game (Dictionary<string, Texture2D> loadDictionary) // Конструктор
         {
 
-            texture = new Dictionary<string, Texture2D>(loadDictionary); // Скопировали тексутры
+            texture = loadDictionary; // Скопировали тексутры
             settings = new Settings();
             background = new BackgroundGeneration();
 
+            //LoadTexture(spriteBatch);
             Generate();
             //Update();
         }
 
-        
-        //public void LoadContent()
-        //{
+        /*
+        public void LoadTexture(SpriteBatch spriteBatch)
+        {
 
             // spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
             // Словарь текстур:
-            //texture = new Dictionary<string, Texture2D>();
-         /*
+            texture = new Dictionary<string, Texture2D>();
+     
             texture.Add("grass", Content.Load<Texture2D>("texture_grass"));
             texture.Add("castle", Content.Load<Texture2D>("texture_castle"));
             texture.Add("home", Content.Load<Texture2D>("texture_home"));
             texture.Add("lake", Content.Load<Texture2D>("texture_lake"));
             texture.Add("tree1", Content.Load<Texture2D>("texture_tree1"));
-            texture.Add("tree2", Content.Load<Texture2D>("texture_tree2"));
+            texture.Add("tree2", Load<Texture2D>("texture_tree2"));
             texture.Add("village", Content.Load<Texture2D>("texture_village"));
             texture.Add ("reddragon",Content.Load<Texture2D>("texture_reddragon"));
             texture.Add ("flame",Content.Load<Texture2D>("texture_flame"));
@@ -62,8 +64,8 @@ namespace DRush {// Пространство имен именем нашей и
             // Создаем экземпляр дракона и инициализирем его
             playerDragon = new Dragon ( texture["reddragon"],
                 new Rectangle(
-                    (coonfig["widthOfScreen"] / 2),
-                    (coonfig["heightOfScreen"] / 2),
+                    (1000 / 2),
+                    (1000 / 2),
                     180,
                     100
                 )
@@ -81,6 +83,10 @@ namespace DRush {// Пространство имен именем нашей и
          *  Сохранение, отмена и вперед (ворд). 
          * 
          *  Паттерн Команда.
+         *  
+         *  Вызываем только после  CTRL P и 
+         *  
+         *  Отдельный класс
          * 
          */
 
