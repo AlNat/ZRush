@@ -26,16 +26,17 @@ namespace DRush {// Пространство имен именем нашей и
         public Game() // Конструктор по умолчанию
         {
             graphics = new GraphicsDeviceManager(this);
-            settings = new Settings();
-            settings.GetData(out coonfig);
-            background = new BackgroundGeneration();
-
             Content.RootDirectory = "Content";
             this.Window.Title = "DRush"; // Название окна
+
+            settings = new Settings();
+            settings.GetData(out coonfig);
 
             graphics.PreferredBackBufferWidth = coonfig["widthOfScreen"]; // Разрешение экрана
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
             graphics.IsFullScreen = true; // Полный экран SETTING
+
+            //StartInit();
 
         }
 
@@ -64,22 +65,8 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("village", Content.Load<Texture2D>("texture_village"));
             texture.Add("farm", Content.Load<Texture2D>("texture_farm"));
 
-            
-            // Создаем экземпляр дракона и инициализирем его
-            playerDragon = new Dragon(
-                Content.Load<Texture2D>("texture_reddragon"), 
-                new Rectangle(
-                    (coonfig["widthOfScreen"] / 2),
-                    (coonfig["heightOfScreen"] / 2), 
-                    180, 
-                    100
-                )
-            );
-            playerFlame = new Flame(
-                Content.Load<Texture2D>("texture_flame"),
-                new Rectangle(0, 0, 100, 100)
-            );
-            
+
+            StartInit();
         }
 
 
@@ -128,6 +115,29 @@ namespace DRush {// Пространство имен именем нашей и
 
 
             base.Draw(gameTime);
+        }
+
+        private void StartInit()
+        {
+   
+            background = new BackgroundGeneration();
+
+            // Создаем экземпляр дракона и инициализирем его
+            playerDragon = new Dragon(
+                Content.Load<Texture2D>("texture_reddragon"), 
+                new Rectangle(
+                    (coonfig["widthOfScreen"] / 2),
+                    (coonfig["heightOfScreen"] / 2), 
+                    180, 
+                    100
+                )
+            );
+            playerFlame = new Flame(
+                Content.Load<Texture2D>("texture_flame"),
+                new Rectangle(0, 0, 100, 100)
+            );
+
+
         }
 
 
