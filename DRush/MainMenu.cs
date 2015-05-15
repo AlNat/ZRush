@@ -25,7 +25,6 @@ namespace DRush {// Пространство имен именем нашей и
         {
 
             graphics = new GraphicsDeviceManager(this);
-            spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
             settings = new Settings();
             textures = new Dictionary<string, Texture2D>();
 
@@ -37,29 +36,25 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
             graphics.IsFullScreen = true; // Полный экран SETTING
 
-
-            LoadContent();
+            //LoadContent();
             Welcome();
         }
 
         // Изменение состояний. Флаги, следить за состоянием.
-        /*
+        
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
 
             base.Initialize();
         }
-        */
-        // ВОПРОС - КАК ПЕРЕДАТЬ ТЕКСТУРЫ В КЛАСС GAME ???
-
+        
         
         protected override void LoadContent()
         {
-            //spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
+            spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
             
             // Словарь текстур:
-           
             textures.Add("grass", Content.Load<Texture2D>("texture_grass"));
             textures.Add("castle", Content.Load<Texture2D>("texture_castle"));
             textures.Add("home", Content.Load<Texture2D>("texture_home"));

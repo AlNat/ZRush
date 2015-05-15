@@ -13,8 +13,6 @@ namespace DRush {// Пространство имен именем нашей и
 
     public class Game //: Microsoft.Xna.Framework.Game // Класс игра
     {
-        //GraphicsDeviceManager graphics;
-        //SpriteBatch spriteBatch;
 
         private Settings settings;
         private BackgroundGeneration background;
@@ -27,8 +25,7 @@ namespace DRush {// Пространство имен именем нашей и
         //public Game(SpriteBatch spriteBatch) // Конструктор
         public Game (Dictionary<string, Texture2D> loadDictionary) // Конструктор
         {
-
-            texture = loadDictionary; // Скопировали тексутры
+            texture = new Dictionary<string, Texture2D>(loadDictionary); // Скопировали тексутры
             settings = new Settings();
             background = new BackgroundGeneration();
 
@@ -40,9 +37,6 @@ namespace DRush {// Пространство имен именем нашей и
         /*
         public void LoadTexture(SpriteBatch spriteBatch)
         {
-
-            // spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
-
             // Словарь текстур:
             texture = new Dictionary<string, Texture2D>();
      
@@ -59,10 +53,16 @@ namespace DRush {// Пространство имен именем нашей и
         }
         */
 
+        /// <summary>
+        /// ИТОГО
+        /// Сейчас не находит тестуры в словаре
+        /// А если загруать отсюда то ругается на null в GraphicsDevice
+        /// </summary>
+
         protected void Generate()
         {
             // Создаем экземпляр дракона и инициализирем его
-            playerDragon = new Dragon ( texture["reddragon"],
+            playerDragon = new Dragon(texture["reddragon"],
                 new Rectangle(
                     (1000 / 2),
                     (1000 / 2),
@@ -79,9 +79,7 @@ namespace DRush {// Пространство имен именем нашей и
 
         /*
          *  Сохранять все переменные из этого класса для сохранения
-         *  
          *  Сохранение, отмена и вперед (ворд). 
-         * 
          *  Паттерн Команда.
          *  
          *  Вызываем только после  CTRL P и 
@@ -89,20 +87,6 @@ namespace DRush {// Пространство имен именем нашей и
          *  Отдельный класс
          * 
          */
-
-
-        /// <summary>
-        /// Есть проблемы во взаимодейтсвии main menu и game.
-        /// Текстуры, выход по клику ESC
-        /// И видимо будут другие
-        /// 
-        /// Как это лучше исправить - наследовать game от game или что
-        /// 
-        /// 
-        /// Второе - паттерн комманда.
-        /// Все действия как объекты?
-        /// Противоречие с ООП
-        /// </summary>
 
         public void Update()
         {
