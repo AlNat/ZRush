@@ -37,7 +37,7 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.IsFullScreen = true; // Полный экран SETTING
 
             //LoadContent();
-            Welcome();
+            //Welcome();
         }
 
         // Изменение состояний. Флаги, следить за состоянием.
@@ -65,11 +65,15 @@ namespace DRush {// Пространство имен именем нашей и
             textures.Add("reddragon", Content.Load<Texture2D>("texture_reddragon"));
             textures.Add("flame", Content.Load<Texture2D>("texture_flame"));
             textures.Add("farm", Content.Load<Texture2D>("texture_farm"));
+
+            //game = new Game(textures);
+            //Welcome();
+            // Похое придется формировать все объекты здесь, иначе они не грузятся
         }
         
         protected override void Update(GameTime gameTime)
         {
-            // TODO - Add signals here
+ 
             game.Update();
 
             if (settings.wasUpdate() == true)
@@ -87,14 +91,14 @@ namespace DRush {// Пространство имен именем нашей и
         private void Welcome()
         {
             int choose = 1;
-
+            
             switch (choose)
             {
                 case 1: game = new Game(textures); break;
                 case 2: settings.Change(); break;
                 case 3: this.Exit(); break;
             }
-
+            
 
         }
 
