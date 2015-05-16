@@ -7,12 +7,10 @@ namespace DRush
     {
         static void Main(string[] args)
         {
-            using (MainMenu main = new MainMenu())
-            {
-                main.Run();
+            MainMenu main = new MainMenu();
 
                 /*
-                 * Иерархия наследования
+                 * Иерархия классов
                  * 
                  * Итого если коротко - Класс Program на самом верху, вызывает класс Главное меню
                  * Затем идет класс MainMenu (Главное меню), который сейчас вызвает Game (игра), но в будущем будет вызывать Settings (настройки), мультиплеер и тд
@@ -28,7 +26,7 @@ namespace DRush
                  */
 
             }
-        }
+ 
     }
 #endif
 }

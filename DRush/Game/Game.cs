@@ -23,6 +23,9 @@ namespace DRush {// Пространство имен именем нашей и
         private Dragon playerDragon; // Дракон
         private Flame playerFlame;
 
+        // Меню
+        MainMenu menu;
+
         public Game() // Конструктор по умолчанию
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,6 +47,25 @@ namespace DRush {// Пространство имен именем нашей и
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            // Инициализировали меню
+            menu = new MainMenu();
+            MenuItem newGame = new MenuItem("Start game"); // Новая игра
+            MenuItem resumeGame = new MenuItem("Resume game"); // Продолить игру
+            //MenuItem changeSettings = new MenuItem ("Settings"); // Настройки
+            MenuItem exitGame = new MenuItem("Exit"); // Выход
+
+            resumeGame.Active = false; // По умолчанию неактивен
+
+            // Обработчики
+            newGame.Click +=new EventHandler(newGame_Click);
+            resumeGame.Click +=new EventHandler(resumeGame_Click);
+            exitGame.Click +=new EventHandler(exitGame_Click);
+
+            // Добавляем элеменыт меню
+            menu.Items.Add(newGame);
+            menu.Items.Add(resumeGame);
+            menu.Items.Add(exitGame);
 
             base.Initialize();
         }
@@ -139,7 +161,6 @@ namespace DRush {// Пространство имен именем нашей и
 
 
         }
-
 
     }
 
