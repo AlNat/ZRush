@@ -100,7 +100,8 @@ namespace DRush {// Пространство имен именем нашей и
 
         void newGame_Click(object sender, EventArgs e)
         { // Новая игра
-            menu.Items[1].Active = true; // Сделали активным обработчик продоления игры
+            menu.Items[1].Active = true; // Сделали активным обработчик продолжения игры и сохранения
+            menu.Items[2].Active = true;
             gamestate = GameState.Game;
 
             GreateGame(Content);

@@ -117,8 +117,10 @@ namespace DRush {// Пространство имен именем нашей и
 
         public void LoadContent(ContentManager Content)
         {
+
             font = Content.Load<SpriteFont>("MenuFont");// Загрузили шрифт
-            image = new MenuImage(
+
+            image = new MenuImage( // Загрузили начальную картинку
                 Content.Load<Texture2D>("texture_mainmenu"),
                 new Rectangle(
                 100,
@@ -127,6 +129,7 @@ namespace DRush {// Пространство имен именем нашей и
                 525
                 )
             );
+
         }
 
     }
