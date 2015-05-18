@@ -107,21 +107,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Game\Archer.cs" />
+    <Compile Include="Game\GameObject\Archer.cs" />
     <Compile Include="Game\BackgroundGeneration.cs" />
-    <Compile Include="Game\Dragon.cs" />
-    <Compile Include="Game\Flame.cs" />
+    <Compile Include="Game\GameObject\Dragon.cs" />
+    <Compile Include="Game\GameObject\Flame.cs" />
     <Compile Include="Game\Game.cs" />
-    <Compile Include="Game\GameObject.cs" />
-    <Compile Include="Game\GameObjectFactory.cs" />
+    <Compile Include="Game\GameObject\GameObject.cs" />
+    <Compile Include="Game\GameObject\GameObjectFactory.cs" />
+    <Compile Include="Menu\MenuImage.cs" />
     <Compile Include="Menu\MenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Menu\MainMenu.cs" />
-    <Compile Include="Saving.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="Game\Swordsman.cs" />
-    <Compile Include="Game\Village.cs" />
+    <Compile Include="Game\Saving.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Game\GameObject\Swordsman.cs" />
+    <Compile Include="Game\GameObject\Village.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

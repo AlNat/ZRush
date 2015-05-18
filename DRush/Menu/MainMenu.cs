@@ -15,22 +15,21 @@ namespace DRush {// Пространство имен именем нашей и
 
         public List<MenuItem> Items { get; set; }
         SpriteFont font; // Шрифт в меню
+        MenuImage image;
 
         int currentItem; // Выбранный пунт меню
         KeyboardState oldState; // Предыдущее состояние клавиатуры
- 
-        public MainMenu() // Конструктор по умолчанию
+
+        Settings settings; // Настройки
+        private Dictionary<string, int> coonfig;
+
+        public MainMenu() // Конструктор
         {
+            // Получаем настройки
+            settings = new Settings();
+            settings.GetData(out coonfig);
 
             Items = new List<MenuItem>();
-
-            /*
-            using (Game game = new Game())
-            {
-                game.Run();
-            }
-            */
-
 
         }
 
@@ -44,11 +43,11 @@ namespace DRush {// Пространство имен именем нашей и
             }
 
             int delta = 0; // Смещение в меню
-            if (state.IsKeyDown(Keys.Up) && state.IsKeyUp(Keys.Up))
+            if (state.IsKeyDown(Keys.Up) && oldState.IsKeyUp(Keys.Up))
             { // Если нажали вверх и в предыдущем не нажимали вверх
                 delta = -1;
             }
-            if (state.IsKeyDown(Keys.Down) && state.IsKeyUp(Keys.Down))
+            if (state.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down))
             { // Если нажали вверх и в предыдущем не нажимали вверх
                 delta = 1;
             }
@@ -83,7 +82,12 @@ namespace DRush {// Пространство имен именем нашей и
         {
             spriteBatch.Begin();
 
-            int y = 100; // Координата
+            image.Draw(spriteBatch); // Нарисовали заглавную картинку
+
+            /// TODO - сцентрировать меню нормально!
+
+            int y = 500; // Координата
+            int x = 500;
 
             foreach (MenuItem item in Items)
             { // Проходим для кадого пункта меню из списка
@@ -101,7 +105,7 @@ namespace DRush {// Пространство имен именем нашей и
                 spriteBatch.DrawString (
                     font, // Шрифт
                     item.Name, // Текст
-                    new Vector2 (100, y), // Ветор позиций
+                    new Vector2 (x, y), // Ветор позиций
                     color // Цвет
                      );
                 y+= 50;
@@ -112,8 +116,17 @@ namespace DRush {// Пространство имен именем нашей и
         }
 
         public void LoadContent(ContentManager Content)
-        { // Загрузили шрифт
-            font = Content.Load<SpriteFont>("MenuFont");
+        {
+            font = Content.Load<SpriteFont>("MenuFont");// Загрузили шрифт
+            image = new MenuImage(
+                Content.Load<Texture2D>("texture_mainmenu"),
+                new Rectangle(
+                100,
+                100,
+                395,
+                525
+                )
+            );
         }
 
     }
