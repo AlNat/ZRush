@@ -86,7 +86,7 @@ namespace DRush {// Пространство имен именем нашей и
 
             /// TODO - сцентрировать меню нормально!
 
-            int y = 500; // Координата
+            int y = 150; // Координаты
             int x = 500;
 
             foreach (MenuItem item in Items)
@@ -99,7 +99,7 @@ namespace DRush {// Пространство имен именем нашей и
                 }
                 if ( item == Items[currentItem] )
                 { // Выбранный пункт
-                    color = Color.Brown;
+                    color = Color.Red;
                 }
 
                 spriteBatch.DrawString (
@@ -108,7 +108,7 @@ namespace DRush {// Пространство имен именем нашей и
                     new Vector2 (x, y), // Ветор позиций
                     color // Цвет
                      );
-                y+= 50;
+                y+= 75;
             }
 
             spriteBatch.End();

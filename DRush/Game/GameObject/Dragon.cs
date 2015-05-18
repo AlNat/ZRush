@@ -38,27 +38,43 @@ namespace DRush
 
         }
 
+        public void SetToStart()
+        { // Обнуление координат
+
+            objectCoordinates.X = (coonfig["widthOfScreen"] / 2) - 90;
+            objectCoordinates.Y = (coonfig["heightOfScreen"] / 2) - 50;
+
+        }
+
         public override void Update() 
         { 
             // Описание движения
-            if ( Keyboard.GetState().IsKeyDown(Keys.Down) )
+            if ( Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 objectCoordinates.Y += moveCooficient;
             }
-            if ( Keyboard.GetState().IsKeyDown(Keys.Up) )
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) )
             {
                 objectCoordinates.Y -= moveCooficient;
             }
-            if ( Keyboard.GetState().IsKeyDown(Keys.Left) )
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 objectCoordinates.X -= moveCooficient;
             }
-            if ( Keyboard.GetState().IsKeyDown(Keys.Right) )
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 objectCoordinates.X += moveCooficient;
             }
 
             // Описание поворота
+            if (Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                //objectCoordinates.X -= moveCooficient;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.E))
+            {
+                //objectCoordinates.X += moveCooficient;
+            }
 
             // Границы экрана
             if (objectCoordinates.X < -20)

@@ -8,16 +8,15 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace DRush {// Пространство имен именем нашей игры
+// Что сделано - MENU, SAVING, TURNING
 
-    /// <summary>
-    /// //// TODO - допилит нормальную инициализацию дракона!!!
-    /// </summary>
+namespace DRush {// Пространство имен именем нашей игры
 
     enum GameState
     { // Игровые состояния
         Game,
         Menu,
+        Settings,
     }
 
     public class Game : Microsoft.Xna.Framework.Game // Класс игра
@@ -25,16 +24,19 @@ namespace DRush {// Пространство имен именем нашей и
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        private Settings settings;
-        private BackgroundGeneration background;
-        private Dictionary<string, Texture2D> texture;
-        private Dictionary<string, int> coonfig;
+        private Settings settings; // Настройки
+        private Saving saver; // Класс для сохранения\загрузи
+        private AllData data; // Объет - данные
+
+        private BackgroundGeneration background; // Класс для фона генерации
+        private Dictionary<string, Texture2D> texture; // Список тестук
+        private Dictionary<string, int> coonfig; // Список настроек
         
         private Dragon playerDragon; // Дракон
         //private Flame playerFlame;
 
         MainMenu menu; // Меню
-        GameState gamestate = GameState.Game; // Установили игровое состояние в игру
+        GameState gamestate = GameState.Menu; // Установили игровое состояние в меню
 
         public Game() // Конструктор по умолчанию
         {
@@ -49,7 +51,7 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
             graphics.IsFullScreen = true; // Полный экран SETTING
 
-            GreateGame(Content);
+            GreateGame(Content); // Вызвали создание новой игры
 
         }
 
@@ -57,26 +59,40 @@ namespace DRush {// Пространство имен именем нашей и
         ///  Методы для меню
         /// </summary>
 
-
         protected override void Initialize()
         {
             // Инициализировали меню
             menu = new MainMenu();
-            MenuItem newGame = new MenuItem("Start game"); // Новая игра
+            MenuItem newGame = new MenuItem("New game"); // Новая игра
             MenuItem resumeGame = new MenuItem("Resume game"); // Продолить игру
-            //MenuItem changeSettings = new MenuItem ("Settings"); // Настройки
+
+            MenuItem saveGame = new MenuItem("Save game"); // Сохранить игру
+            MenuItem loadGame = new MenuItem("Load game"); // Загрузить игру
+
+            MenuItem changeSettings = new MenuItem ("Settings"); // Настройки
             MenuItem exitGame = new MenuItem("Exit"); // Выход
 
             resumeGame.Active = false; // По умолчанию неактивен
+            saveGame.Active = false;
 
             // Обработчики
             newGame.Click +=new EventHandler(newGame_Click);
             resumeGame.Click +=new EventHandler(resumeGame_Click);
+
+            saveGame.Click += new EventHandler(saveGame_Click);
+            loadGame.Click += new EventHandler(loadGame_Click);
+
+            changeSettings.Click += new EventHandler(changeSettings_Click);
             exitGame.Click +=new EventHandler(exitGame_Click);
 
             // Добавляем элеменыт меню
             menu.Items.Add(newGame);
             menu.Items.Add(resumeGame);
+
+            menu.Items.Add(saveGame);
+            menu.Items.Add(loadGame);
+
+            menu.Items.Add(changeSettings);
             menu.Items.Add(exitGame);
 
             base.Initialize();
@@ -88,7 +104,7 @@ namespace DRush {// Пространство имен именем нашей и
             gamestate = GameState.Game;
 
             GreateGame(Content);
-
+            playerDragon.SetToStart(); // ЭТО ОЧЕНЬ КРИВОЙ ХАК! - НУНО ДОПИЛИТЬ CREATE GAME
         }
 
         void resumeGame_Click(object sender, EventArgs e)
@@ -96,11 +112,27 @@ namespace DRush {// Пространство имен именем нашей и
             gamestate = GameState.Game;
         }
 
+        void saveGame_Click(object sender, EventArgs e)
+        { // Сохранить игру
+            //data.GetData();
+            //saver.Save();
+        }
+
+        void loadGame_Click(object sender, EventArgs e)
+        { // Загрузить игру
+            //saver.Load(); 
+            //data.GiveData();
+        }
+
+        void changeSettings_Click(object sender, EventArgs e)
+        { // Изменение настроек
+
+        }
+
         void exitGame_Click(object sender, EventArgs e)
         { // Выход из игры
             this.Exit();
         }
-
 
         /// <summary>
         /// Загрузка контента
@@ -111,7 +143,7 @@ namespace DRush {// Пространство имен именем нашей и
 
             spriteBatch = new SpriteBatch(GraphicsDevice); // Класс для отрисовки
 
-            // Как я понял - все действия с текстурами нуно проводить только здесь
+            /////// Как я понял - все действия с текстурами нуно проводить только здесь
 
             // Словарь текстур:
             texture = new Dictionary<string, Texture2D>();
@@ -124,8 +156,18 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("village", Content.Load<Texture2D>("Background\\texture_village"));
             texture.Add("farm", Content.Load<Texture2D>("Background\\texture_farm"));
 
-            menu.LoadContent(Content); // Передали Content
+            texture.Add("reddragon", Content.Load<Texture2D>("Dragons\\texture_reddragon"));
 
+            playerDragon = new Dragon(
+                texture["reddragon"],
+                new Rectangle(
+                (coonfig["widthOfScreen"] / 2) - 90,
+                (coonfig["heightOfScreen"] / 2) - 50,
+                180,
+                100
+                )
+            );
+            /*
             playerDragon = new Dragon(
                 Content.Load<Texture2D>("Dragons\\texture_reddragon"),
                 new Rectangle(
@@ -133,27 +175,44 @@ namespace DRush {// Пространство имен именем нашей и
                 (coonfig["heightOfScreen"] / 2),
                 180,
                 100
-                 )
+                )
             );
-
-            GreateGame(Content); // Вызвали метод инициализации нового игры
-        }
-
-        private void GreateGame(ContentManager Content)
-        { // Инициализация нового уровня
-            // Генерируем новый фон и ставим дракона, и противников
-
-            background = new BackgroundGeneration();
-
-            // Создаем экземпляр дракона и инициализирем его
-            //playerDragon.
-
+             * */
             /*
             playerFlame = new Flame(
                 Content.Load<Texture2D>("texture_flame"),
                 new Rectangle(0, 0, 100, 100)
             );
              */
+
+            menu.LoadContent(Content); // Передали Content
+
+            GreateGame(Content); // Вызвали метод инициализации нового игры
+        }
+
+
+       /// <summary>
+       /// BIF PROBLEMS HERE
+       /// </summary>
+
+        private void GreateGame(ContentManager Content)
+        { // Инициализация нового уровня
+            // Генерируем новый фон и ставим дракона, и противников
+
+            background = new BackgroundGeneration();
+            /*
+            playerDragon = new Dragon(
+                texture["reddragon"],
+                new Rectangle(
+                (coonfig["widthOfScreen"] / 2),
+                (coonfig["heightOfScreen"] / 2),
+                180,
+                100
+                )
+            );
+             */
+            // Создаем экземпляр дракона и инициализирем его
+            //playerDragon.SetToStart();
 
         }
 
