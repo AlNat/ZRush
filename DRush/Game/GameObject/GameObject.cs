@@ -15,9 +15,11 @@ namespace DRush
         protected Texture2D objectTexture; // Текстура
         protected Rectangle objectCoordinates; // Прямоугольник тестуры - координаты
 
-        protected Rectangle liveCordinates; // Прямоугольник тестуры линии жизни
+        protected Vector2 originalDirection; // Старое направление
+        protected Vector2 newDirection; // Направление новое для вращения
+        protected float angle; // Угол вращения
 
-        protected int angle; // Угол поворота
+        protected Rectangle liveCordinates; // Прямоугольник тестуры линии жизни
 
         protected bool staticSetting; // Статичен ли объект или нет
         protected int live; // Характеристика жизнь
@@ -30,6 +32,7 @@ namespace DRush
         protected int hardCooficient; // Коофицент сложности
         protected int moveCooficient = 5; // Коофициент движения - для больших экранов и тд - 
         //TODO - вынести в настройки!
+
         
         public virtual void Update() // Виртуальный метод
         {

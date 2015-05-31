@@ -35,7 +35,7 @@ namespace DRush
 
             if (name.Equals("dragon"))
             {
-                obj = new Dragon(inputTexture, inputRectangle);
+                obj = new Dragon(inputTexture, inputRectangle, new Vector2(200, 200));
             }
             else if (name.Equals("flame"))
             {

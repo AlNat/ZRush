@@ -19,6 +19,7 @@ namespace DRush
 
         public override void Update() // Метод обновления
         {
+
             
         }
 

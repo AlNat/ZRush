@@ -15,7 +15,7 @@ namespace DRush
         Settings settings;
         Dictionary<string, int> coonfig;
 
-        public Dragon(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
+        public Dragon(Texture2D inputTexture, Rectangle inputRectangle, Vector2 newDirection) // Конструктор
         {
             settings = new Settings();
             settings.GetData (out coonfig); 
@@ -44,10 +44,15 @@ namespace DRush
             objectCoordinates.X = (coonfig["widthOfScreen"] / 2) - 90;
             objectCoordinates.Y = (coonfig["heightOfScreen"] / 2) - 50;
 
+            // Обнуление вектора
+
         }
 
         public override void Update() 
-        { 
+        {
+
+            objectCoordinates = new Rectangle((int)newDirection.X, (int)newDirection.Y, objectTexture.Width, objectTexture.Height);
+
             // Описание движения
             if ( Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
@@ -69,11 +74,11 @@ namespace DRush
             // Описание поворота
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-                //objectCoordinates.X -= moveCooficient;
+                angle += 0.1f;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
-                //objectCoordinates.X += moveCooficient;
+                angle -= 0.1f;
             }
 
             // Границы экрана
@@ -102,6 +107,12 @@ namespace DRush
 
         }
 
+         
+        public void Draw(SpriteBatch spriteBatch) // Переписали метод отрисовки
+        {
+            spriteBatch.Draw(objectTexture, originalDirection, null, Color.White, angle, newDirection, 1f, SpriteEffects.None, 0); // Рисуем его под углом ДОДЕЛАТЬ
+        }
+        
         public void Shoot (ref Rectangle rectangle) {
             rectangle.X = objectCoordinates.X;
             rectangle.Y = objectCoordinates.Y;        

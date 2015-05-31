@@ -114,7 +114,7 @@
     <Compile Include="Game\GameObject\Flame.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\GameObject\GameObject.cs" />
-    <Compile Include="Game\GameObject\GameObjectFactory.cs" />
+    <None Include="Game\GameObject\GameObjectFactory.cs" />
     <Compile Include="Menu\ChangeSettings.cs" />
     <Compile Include="Menu\MenuImage.cs" />
     <Compile Include="Menu\MenuItem.cs" />

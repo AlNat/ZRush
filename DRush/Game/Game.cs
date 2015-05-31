@@ -8,7 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-// Что сделано - MENU, SAVING, TURNING
+// Геттеры\сеттеры   или конструктор с переменным числом аргументов - загрузка сохранение
+// Интерфейс для метода save и load  в кадом классе.
+
 
 namespace DRush {// Пространство имен именем нашей игры
 
@@ -33,7 +35,7 @@ namespace DRush {// Пространство имен именем нашей и
         private Dictionary<string, int> coonfig; // Список настроек
         
         private Dragon playerDragon; // Дракон
-        //private Flame playerFlame;
+        private Flame playerFlame; // Пламя
 
         MainMenu menu; // Меню
         GameState gamestate = GameState.Menu; // Установили игровое состояние в меню
@@ -158,6 +160,7 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("farm", Content.Load<Texture2D>("Background\\texture_farm"));
 
             texture.Add("reddragon", Content.Load<Texture2D>("Dragons\\texture_reddragon"));
+            texture.Add("flame", Content.Load<Texture2D>("Dragons\\texture_flame"));
 
             playerDragon = new Dragon(
                 texture["reddragon"],
@@ -166,7 +169,8 @@ namespace DRush {// Пространство имен именем нашей и
                 (coonfig["heightOfScreen"] / 2) - 50,
                 180,
                 100
-                )
+                ),
+                new Vector2((coonfig["widthOfScreen"] / 2) - 90, (coonfig["heightOfScreen"] / 2) - 50)
             );
             /*
             playerDragon = new Dragon(
@@ -179,12 +183,12 @@ namespace DRush {// Пространство имен именем нашей и
                 )
             );
              * */
-            /*
+            
             playerFlame = new Flame(
-                Content.Load<Texture2D>("texture_flame"),
+                texture["flame"],
                 new Rectangle(0, 0, 100, 100)
             );
-             */
+             
 
             menu.LoadContent(Content); // Передали Content
 
@@ -201,19 +205,6 @@ namespace DRush {// Пространство имен именем нашей и
             // Генерируем новый фон и ставим дракона, и противников
 
             background = new BackgroundGeneration();
-            /*
-            playerDragon = new Dragon(
-                texture["reddragon"],
-                new Rectangle(
-                (coonfig["widthOfScreen"] / 2),
-                (coonfig["heightOfScreen"] / 2),
-                180,
-                100
-                )
-            );
-             */
-            // Создаем экземпляр дракона и инициализирем его
-            //playerDragon.SetToStart();
 
         }
 
@@ -245,6 +236,8 @@ namespace DRush {// Пространство имен именем нашей и
             }
 
             playerDragon.Update();
+            playerFlame.Update();
+
             // Пока не будем изменять фон, но в будущем будем изменять и вызывать отсюда background.Update();
 
         }
@@ -286,7 +279,7 @@ namespace DRush {// Пространство имен именем нашей и
 
             playerDragon.Draw(spriteBatch);
 
-            //playerFlame.Draw(spriteBatch);
+            playerFlame.Draw(spriteBatch);
 
             spriteBatch.End(); // Конец прорисовки
         }
