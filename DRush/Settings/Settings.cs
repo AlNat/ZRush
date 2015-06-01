@@ -10,20 +10,13 @@ namespace DRush
 {
     class Settings
     {
-        /* 
-         * Класс настроек.
-         * При вызове конструктора читает xml, где хранятся настройки.
-         * 
-         * Имеет сигнал об обновлении
-         * 
-         */
+        /// Класс настроек - прокси между файлами и другими частями приложения
 
         // Разрешение экрана
         int widthOfScreen;
         int heightOfScreen;
 
         // Коофициент для формул 
-
         int xBackgroundCooficient;
         int yBackgroundCooficient;
 
@@ -31,16 +24,21 @@ namespace DRush
         static int countOfChuncsX;
         static int countOfChuncsY;
 
-        bool updateFlag;  // Флаг обновления
+        bool updateFlag; // Флаг обновления
 
         public Settings()
         {
-            ReadXML();
+            /// Конструктор
+
+            ReadXML(); 
         }
 
-        public void GetData(out Dictionary<string, int> data) // ref и out - отличные инструменты. ref - это передача по ссылке, out - вариант "отложенной инициализации"
+        public void GetData(out Dictionary<string, int> data) 
         {
+            /// Функция для передачи данных
+            /// Отдает словарь с настройками
 
+            // ref и out - отличные инструменты. ref - это передача по ссылке, out - вариант "отложенной инициализации"
             data = new Dictionary<string, int>();
             data.Add("widthOfScreen", widthOfScreen);
             data.Add("heightOfScreen", heightOfScreen);
@@ -50,8 +48,10 @@ namespace DRush
             data.Add("countOfChuncsY", countOfChuncsY);
         }
 
-        public void ReadXML() // Реализовал функцией, а не конструтором, ибо возмоно обновление на лету и придется функцию вызывать заново
+        public void ReadXML() 
         {
+            /// Функция чтения данных из xml файла
+
             string inputAttribute;
             XDocument xmlSettings = XDocument.Load("settings.xml"); // Открыли доумент
 
@@ -77,7 +77,9 @@ namespace DRush
         }
 
         public void WriteXML(ref Dictionary<string, int> data)
-        {// Вызываем его, когда игро вызвал настройки и изменил их
+        {
+            // TODO
+            // Вызываем его, когда игро вызвал настройки и изменил их
             // Принимаем словарь настроек и записываем их
 
             updateFlag = true;
@@ -85,17 +87,20 @@ namespace DRush
 
         public void Change()
         {
+            // TODO
             // Фунция для изменения пользователем.
             updateFlag = true;
         }
 
         public bool wasUpdate()
-        { // Геттер флага обновления
+        { 
+            // Геттер флага обновления
             return updateFlag;
         }
 
         public void Update()
-        { // При вызове обновления читаем файл и обновляем флаг
+        { 
+            // При вызове обновления читаем файл и обновляем флаг
             ReadXML();
             updateFlag = false;
         }

@@ -45,7 +45,7 @@ namespace DRush {// Пространство имен именем нашей и
         private Dictionary<string, int> coonfig; // Список настроек
         
         private Dragon playerDragon; // Дракон
-        private Flame tempFlame;
+        //private Flame tempFlame;
         public List<Flame> playerFlames = new List<Flame>(); // Список выстрелов
         public List<Swordsman> enemies = new List<Swordsman>(); // Список противников
 
@@ -189,6 +189,12 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("flame", Content.Load<Texture2D>("Dragons\\texture_flame"));
             texture.Add("swordsman", Content.Load<Texture2D>("Mobs\\texture_swordsman"));
 
+            /// <summary>
+            /// BIF PROBLEMS HERE
+            /// 
+            /// Не получается по нормальному создавать объеты вне этой функции
+            /// </summary>
+
             playerDragon = new Dragon(
                 texture["reddragon"],
                 new Vector2(
@@ -217,11 +223,6 @@ namespace DRush {// Пространство имен именем нашей и
 
             GreateGame(Content); // Вызвали метод инициализации нового игры
         }
-
-
-       /// <summary>
-       /// BIF PROBLEMS HERE
-       /// </summary>
 
         private void GreateGame(ContentManager Content)
         { // Инициализация нового уровня
@@ -260,13 +261,11 @@ namespace DRush {// Пространство имен именем нашей и
 
             playerDragon.Update();
             EnemiesUpdate();
-
             
             if (playerDragon.shootSignal ) // Если приняли СИГНАЛ о том что произвели выстре и есть еще возможость для выстрелов то стреляем
             {
                 if (nowFlame < maxFlame)
                 {
-                    
                     Flame tempFlame = new Flame(
                         texture["flame"], 
                         //new Rectangle(0, 0, 0, 0),
@@ -287,14 +286,14 @@ namespace DRush {// Пространство имен именем нашей и
         public void EnemiesUpdate()
         {
             foreach (Swordsman sw in enemies)
-            { // Прошли по списку пламеней и продвинули их
+            { 
                 if (sw.IsCollapse(playerDragon))
-                { // Если палмя слишком далеко то удалить его
+                { 
                     sw.isVisible = false;
                     playerDragon.KillEnemy(sw.points);
                 }
             }
-
+            
             for (int t = 0; t < enemies.Count; t++)
             { // Удаляем неактивные элементы
                 if (!enemies[t].isVisible)
@@ -304,7 +303,7 @@ namespace DRush {// Пространство имен именем нашей и
                     nowEnemy -= 1;
                 }
             }
-
+            
         }
 
         private void FlameUpdate()
@@ -328,8 +327,6 @@ namespace DRush {// Пространство имен именем нашей и
                     nowFlame -= 1;
                 }
             }
-
-
 
         }
 
@@ -373,7 +370,6 @@ namespace DRush {// Пространство имен именем нашей и
                 fl.Draw(spriteBatch);
             }
             spriteBatch.End(); // Конец прорисовки
-
             
             spriteBatch.Begin(); // Начало прорисовки
             foreach (Swordsman sw in enemies)
@@ -382,7 +378,6 @@ namespace DRush {// Пространство имен именем нашей и
                 sw.Draw(spriteBatch);
             }
             spriteBatch.End(); // Конец прорисовки
-            
 
             spriteBatch.Begin(); // Начало прорисовки
             playerDragon.Draw(spriteBatch);          
@@ -392,18 +387,10 @@ namespace DRush {// Пространство имен именем нашей и
 
          void DrawFinish(SpriteBatch spriteBatch)
          {
-
-            spriteBatch.Begin(); // Начало прорисовки фона
-            spriteBatch.DrawString(scoreFont, "YOU WIN! Score = " + playerDragon.points, new Vector2( (coonfig["widthOfScreen"] / 2) - 50, 1), Color.OrangeRed);
-            spriteBatch.End(); // Конец прорисовки фона
-
-            //System.Threading.Thread.Sleep(2000);
-            playerDragon.points = 0;
             gamestate = GameState.Menu;
+            menu.Finish("YOU WIN! Score = " + playerDragon.points, spriteBatch);
+            playerDragon.points = 0;
             menu.Draw(spriteBatch);
-            menu.Finish();
-
-
          }
 
 

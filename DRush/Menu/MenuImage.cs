@@ -11,8 +11,6 @@ namespace DRush
     class MenuImage: GameObject
     {
 
-        // staticSetting = true;
-
         public MenuImage(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
         {
             objectTexture = inputTexture;

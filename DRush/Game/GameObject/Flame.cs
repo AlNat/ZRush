@@ -11,7 +11,7 @@ namespace DRush
     public class Flame : GameObject
     {
         public bool isVisible;
-        public Vector2 flameVelocity; // Ускорение - или коофициент двиения
+        public Vector2 flameVelocity;
 
         public Flame(Texture2D inputTexture, Vector2 inDirection) // Конструктор
         {
@@ -20,8 +20,6 @@ namespace DRush
             newDirection = inDirection;
             isVisible = false;
         }
-
-
 
         public override void Update() // Метод обновления
         {

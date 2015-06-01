@@ -7,6 +7,10 @@ namespace DRush
 {
     class MenuItem
     {
+        /// <summary>
+        /// Класс пункт меню
+        /// Используется для отрисовки пунктов в меню
+        /// </summary>
 
         public string Name { get; set; } // Имя
         public bool Active { get; set; } // Активен\неактивен
@@ -15,6 +19,8 @@ namespace DRush
 
         public MenuItem (string inputName) 
         {
+            /// Конструктор
+            /// Принимает имя
             this.Name = inputName;
             Active = true;
         }

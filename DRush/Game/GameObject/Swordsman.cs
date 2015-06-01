@@ -17,7 +17,6 @@ namespace DRush
         {
             objectTexture = inputTexture;
             objectCoordinates = inputRectangle;
-            //oldRectangle = inputRectangle; //Для новой игры
             isVisible = true;
             points = 10;
         }

@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using System.Timers;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace DRush {// Пространство имен именем нашей игры
 
@@ -122,15 +125,21 @@ namespace DRush {// Пространство имен именем нашей и
 
             image = new MenuImage( // Загрузили начальную картинку
                 Content.Load<Texture2D>("texture_mainmenu"),
-                new Rectangle(
-                100,
-                100,
-                395,
-                525
-                )
+                new Rectangle( 100, 100, 395, 525)
             );
 
         }
+
+        public void Finish (string input, SpriteBatch spriteBatch)
+        {
+            
+            spriteBatch.Begin(); // Начало прорисовки фона
+            spriteBatch.DrawString(font, input, new Vector2 (coonfig["widthOfScreen"]/2, coonfig["heightOfScreen"]/2), Color.AntiqueWhite );
+            spriteBatch.End(); // Начало прорисовки фона
+
+            // Здесь нужно как-нибудь обождать
+        }
+
 
     }
 

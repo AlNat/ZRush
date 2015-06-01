@@ -13,25 +13,20 @@ namespace DRush
 {
     public class GameObjectFactory
     {
+        /// Реализация паттерна Фабрика
 
         // Впихнуть невпихуемое !!!
-
-        // класс, только и делающий, что возвращает нужный нам объект
-        // 3 аргумента у фабрики, первый - сам выбор из фабрики. Два других - стандартные конструкторы
         // Разумеется, это нифига не паттерн и даже не фабрика, но все-же.
-
         // Но Who cares - это всего лишь для примера
 
-        public GameObject obj;
-
-        public GameObjectFactory()
-        {// Конструктор
-
-        }
+        private GameObject obj;
 
         public GameObject Factory (String name, Texture2D inputTexture, Rectangle inputRectangle)
         { 
-             //GameObject obj = null;
+            /// Конструктор
+            /// Принимает строку с именем, тестуру и прямоугольник координат
+            /// Возвращает созданный объект класса GameObject
+
 
             if (name.Equals("dragon"))
             {
