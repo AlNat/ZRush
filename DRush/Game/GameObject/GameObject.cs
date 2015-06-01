@@ -15,8 +15,8 @@ namespace DRush
         protected Texture2D objectTexture; // Текстура
         protected Rectangle objectCoordinates; // Прямоугольник тестуры - координаты
 
-        protected Vector2 originalDirection; // Старое направление
-        protected Vector2 newDirection; // Направление новое для вращения
+        public Vector2 originalDirection; // Старое направление
+        public Vector2 newDirection; // Направление новое для вращения
         protected float angle; // Угол вращения
 
         protected Rectangle liveCordinates; // Прямоугольник тестуры линии жизни
@@ -52,7 +52,8 @@ namespace DRush
 
         public bool IsCollapse(GameObject inputGameObject)
         {
-            if (inputGameObject.objectCoordinates.Intersects (objectCoordinates)) // Если прямоугольники координат пересеклись 
+            if (Math.Abs(inputGameObject.originalDirection.X - objectCoordinates.X) < 50 && Math.Abs(inputGameObject.originalDirection.Y - objectCoordinates.Y) < 50)
+                //.Intersects (objectCoordinates)) // Если прямоугольники координат пересеклись 
                 return true;
             else
                 return false;

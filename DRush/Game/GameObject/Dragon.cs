@@ -12,10 +12,11 @@ namespace DRush
     public class Dragon : GameObject
     {
 
+
+        public bool shootSignal;
         Settings settings;
         Dictionary<string, int> coonfig;
-        Vector2 saveDirection;
-
+        
         public Dragon(Texture2D inputTexture,  Vector2 inDirection) // Конструктор
         {
             settings = new Settings();
@@ -24,10 +25,10 @@ namespace DRush
             // Технические переменные:
             objectTexture = inputTexture;
             originalDirection = inDirection;
-            saveDirection = inDirection; // Это для новой игры
 
             angle = 0; // Угол поворота
             staticSetting = false; // Статичен ли объект или нет
+            shootSignal = false;
 
             // Перемнные персонажа:
             level = 1; // Уровень
@@ -73,35 +74,35 @@ namespace DRush
             // Описание поворота
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-                angle += 0.04f;
+                angle += 0.06f;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
-                angle -= 0.04f;
+                angle -= 0.06f;
             }
 
             // Границы экрана
-            if (originalDirection.X < -20)
+            if (originalDirection.X < -40)
             {
                 originalDirection.X = coonfig["widthOfScreen"] - 20; 
             }
             if (originalDirection.X > coonfig["widthOfScreen"] - 20)
             {
-                originalDirection.X = -10; 
+                originalDirection.X = -20; 
             }
-            if (originalDirection.Y < -20)
+            if (originalDirection.Y < -40)
             {
-                originalDirection.Y = coonfig["heightOfScreen"] - 10;
+                originalDirection.Y = coonfig["heightOfScreen"] - 20;
             }
-            if (originalDirection.Y > coonfig["heightOfScreen"] - 10)
+            if (originalDirection.Y > coonfig["heightOfScreen"] - 20)
             {
-                originalDirection.Y = -5;
+                originalDirection.Y = -20;
             }
 
             // Создание выстрела
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) )
             {
-                //Shoot();        
+                shootSignal = true;     
             }
 
         }
@@ -112,9 +113,19 @@ namespace DRush
             spriteBatch.Draw(objectTexture, originalDirection, null, Color.White, angle, newDirection, 1f, SpriteEffects.None, 0); // Рисуем его под углом ДОДЕЛАТЬ
         }
         
-        public void Shoot (ref Rectangle rectangle) {
-            rectangle.X = objectCoordinates.X;
-            rectangle.Y = objectCoordinates.Y;        
+        public void Shoot (ref Flame flame) 
+        { // При выстреле описали где выстрелели, напрвление и отдали наружу
+
+            shootSignal = false;
+            flame.isVisible = true;
+            // ХЗ почему тут не работает - оставлю на доделать
+            // Скажем что драконы, даже если бы существовали все равно не могли бы дышат ьпламенем
+            flame.flameVelocity = new Vector2 (
+            (float)Math.Cos(originalDirection.X),
+            (float)Math.Sin(originalDirection.Y)
+             );
+            flame.originalDirection = originalDirection + flame.flameVelocity * 5f;
+
         }
 
         public void KillEnemy(int expa)

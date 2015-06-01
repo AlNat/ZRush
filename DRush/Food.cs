@@ -8,17 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DRush
 {
-    public class Swordsman : GameObject
+    class Food : GameObject
     {
-
         public bool isVisible;
-
-        public Swordsman(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
+        public Food(Texture2D inputTexture, Rectangle inputRectangle) // Конструктор
         {
             objectTexture = inputTexture;
             objectCoordinates = inputRectangle;
-            //oldRectangle = inputRectangle; //Для новой игры
-            isVisible = true;
+
             points = 10;
         }
 
@@ -27,10 +24,8 @@ namespace DRush
             return points;
         }
 
-        public void SetToStart(int rX, int rY)
-        {
-            objectCoordinates.X = rX;
-            objectCoordinates.Y = rY;
-        }
+
+
     }
+
 }

@@ -26,18 +26,28 @@ namespace DRush {// Пространство имен именем нашей и
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        // Максимальное кол-во врагов
+        int maxFlame = 3;
+        int maxEnemy = 5;
+
+        // Кол-во активных сейчас
+        int nowFlame;
+        int nowEnemy;
+
         private SpriteFont scoreFont;
 
         private Settings settings; // Настройки
-        private Saving saver; // Класс для сохранения\загрузи
-        private AllData data; // Объет - данные
+        //private Saving saver; // Класс для сохранения\загрузи
+        //private AllData data; // Объет - данные
 
         private BackgroundGeneration background; // Класс для фона генерации
         private Dictionary<string, Texture2D> texture; // Список тестук
         private Dictionary<string, int> coonfig; // Список настроек
         
         private Dragon playerDragon; // Дракон
-        //private Flame playerFlame; // Пламя
+        private Flame tempFlame;
+        public List<Flame> playerFlames = new List<Flame>(); // Список выстрелов
+        public List<Swordsman> enemies = new List<Swordsman>(); // Список противников
 
         MainMenu menu; // Меню
         GameState gamestate = GameState.Menu; // Установили игровое состояние в меню
@@ -54,6 +64,9 @@ namespace DRush {// Пространство имен именем нашей и
             graphics.PreferredBackBufferWidth = coonfig["widthOfScreen"]; // Разрешение экрана
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
             graphics.IsFullScreen = true; // Полный экран SETTING
+
+            nowFlame = 0;
+            nowEnemy = 0;
 
             GreateGame(Content); // Вызвали создание новой игры
 
@@ -109,7 +122,17 @@ namespace DRush {// Пространство имен именем нашей и
             gamestate = GameState.Game;
 
             GreateGame(Content);
-            playerDragon.SetToStart(); // ЭТО ОЧЕНЬ КРИВОЙ ХАК! - НУНО ДОПИЛИТЬ CREATE GAME
+            playerDragon.SetToStart(); 
+
+            ////// БАГА - остается при новой игре только несожранные люди.
+            Random rnd = new Random(); // Создали экзмепляр рандома
+            foreach (Swordsman s in enemies)
+            {
+
+                int rX = rnd.Next(50, coonfig["widthOfScreen"] - 100);
+                int rY = rnd.Next(50, coonfig["heightOfScreen"] - 100);
+                s.SetToStart(rX, rY);
+            }
         }
 
         void resumeGame_Click(object sender, EventArgs e)
@@ -164,6 +187,7 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("farm", Content.Load<Texture2D>("Background\\texture_farm"));
             texture.Add("reddragon", Content.Load<Texture2D>("Dragons\\texture_reddragon"));
             texture.Add("flame", Content.Load<Texture2D>("Dragons\\texture_flame"));
+            texture.Add("swordsman", Content.Load<Texture2D>("Mobs\\texture_swordsman"));
 
             playerDragon = new Dragon(
                 texture["reddragon"],
@@ -172,12 +196,23 @@ namespace DRush {// Пространство имен именем нашей и
                     (coonfig["heightOfScreen"] / 2) - 50
                 )
             );
+
+            Random rnd = new Random(); // Создали экзмепляр рандома
+            for (int t = 0; t < maxEnemy; t++)
+            {
+                int rX = rnd.Next(50, coonfig["widthOfScreen"] - 100);
+                int rY = rnd.Next(50, coonfig["heightOfScreen"] - 100);
+                enemies.Add(new Swordsman (texture["swordsman"], new Rectangle(rX,  rY,  100, 100)) );
+                nowEnemy++;
+            }
+          
             /*
-            playerFlame = new Flame(
-                texture["flame"],
-                new Rectangle(0, 0, 100, 100)
-            );*/
-             
+                tempFlame = new Flame(
+                    texture["flame"],
+                    //new Rectangle(100, 100, 100, 100),
+                    new Vector2(100, 100)
+                ); 
+            */
             menu.LoadContent(Content); // Передали Content
 
             GreateGame(Content); // Вызвали метод инициализации нового игры
@@ -224,13 +259,80 @@ namespace DRush {// Пространство имен именем нашей и
             }
 
             playerDragon.Update();
-            //playerFlame.Update();
+            EnemiesUpdate();
+
+            
+            if (playerDragon.shootSignal ) // Если приняли СИГНАЛ о том что произвели выстре и есть еще возможость для выстрелов то стреляем
+            {
+                if (nowFlame < maxFlame)
+                {
+                    
+                    Flame tempFlame = new Flame(
+                        texture["flame"], 
+                        //new Rectangle(0, 0, 0, 0),
+                        new Vector2 (100, 100)
+                    );
+                    Flame tmp = tempFlame;
+                    playerDragon.Shoot(ref tmp); // Инициализировали выстрел там 
+                    playerFlames.Add(tmp);
+                    nowFlame++;
+                }
+            }
+            FlameUpdate();
 
             // Пока не будем изменять фон, но в будущем будем изменять и вызывать отсюда background.Update();
 
         }
 
-        
+        public void EnemiesUpdate()
+        {
+            foreach (Swordsman sw in enemies)
+            { // Прошли по списку пламеней и продвинули их
+                if (sw.IsCollapse(playerDragon))
+                { // Если палмя слишком далеко то удалить его
+                    sw.isVisible = false;
+                    playerDragon.KillEnemy(sw.points);
+                }
+            }
+
+            for (int t = 0; t < enemies.Count; t++)
+            { // Удаляем неактивные элементы
+                if (!enemies[t].isVisible)
+                {
+                    enemies.RemoveAt(t);
+                    t--;
+                    nowEnemy -= 1;
+                }
+            }
+
+        }
+
+        private void FlameUpdate()
+        {
+            foreach (Flame flames in playerFlames)
+            { // Прошли по списку пламеней и продвинули их
+                flames.originalDirection.X += 5;
+                flames.originalDirection.Y += 5;
+                //if (Vector2.Distance(playerDragon.newDirection, flames.originalDirection) > coonfig["heightOfScreen"] / 2)
+                //{ // Если палмя слишком далеко то удалить его
+                  //  flames.isVisible = false; 
+                //}
+            }
+
+            for (int t = 0; t < playerFlames.Count; t++)
+            { // Удаляем неактивные элементы
+                if (!playerFlames[t].isVisible)
+                {
+                    playerFlames.RemoveAt(t);
+                    t--;
+                    nowFlame -= 1;
+                }
+            }
+
+
+
+        }
+
         /// <summary>
         /// Рисование
         /// </summary>
@@ -241,7 +343,11 @@ namespace DRush {// Пространство имен именем нашей и
 
             GraphicsDevice.Clear(Color.Black); // Цвет начального фона
 
-            if (gamestate == GameState.Game)
+            if (playerDragon.points >= maxEnemy * 10)
+            {
+                DrawFinish(spriteBatch);
+            }
+            else if (gamestate == GameState.Game)
             { // Если игровое состояние - игра то рисуем игру
                 DrawGame(spriteBatch); // Просто выделили рисование игры в отедльный метод
             }
@@ -257,22 +363,48 @@ namespace DRush {// Пространство имен именем нашей и
         { // Рисуем игру
 
             spriteBatch.Begin(); // Начало прорисовки фона
-
             background.Draw (spriteBatch, texture); // Прорисовали фон
-
             spriteBatch.DrawString(scoreFont, "Score = " + playerDragon.points, new Vector2((coonfig["widthOfScreen"] / 2) - 50, 1), Color.OrangeRed);
-
             spriteBatch.End(); // Конец прорисовки фона
 
+            spriteBatch.Begin(); // Начало прорисовки
+            foreach (Flame fl in playerFlames)
+            {
+                fl.Draw(spriteBatch);
+            }
+            spriteBatch.End(); // Конец прорисовки
 
+            
+            spriteBatch.Begin(); // Начало прорисовки
+            foreach (Swordsman sw in enemies)
+            {
+                if (sw.isVisible)
+                sw.Draw(spriteBatch);
+            }
+            spriteBatch.End(); // Конец прорисовки
+            
 
             spriteBatch.Begin(); // Начало прорисовки
-
             playerDragon.Draw(spriteBatch);          
-            //playerFlame.Draw(spriteBatch);
             spriteBatch.End(); // Конец прорисовки
         }
 
+
+         void DrawFinish(SpriteBatch spriteBatch)
+         {
+
+            spriteBatch.Begin(); // Начало прорисовки фона
+            spriteBatch.DrawString(scoreFont, "YOU WIN! Score = " + playerDragon.points, new Vector2( (coonfig["widthOfScreen"] / 2) - 50, 1), Color.OrangeRed);
+            spriteBatch.End(); // Конец прорисовки фона
+
+            //System.Threading.Thread.Sleep(2000);
+            playerDragon.points = 0;
+            gamestate = GameState.Menu;
+            menu.Draw(spriteBatch);
+            menu.Finish();
+
+
+         }
 
 
     }

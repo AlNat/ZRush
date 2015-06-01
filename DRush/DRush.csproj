@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Food.cs" />
     <Compile Include="Game\AllData.cs" />
     <Compile Include="Game\GameObject\Archer.cs" />
     <Compile Include="Game\BackgroundGeneration.cs" />
