@@ -15,6 +15,13 @@ namespace DRush
         {
             objectTexture = inputTexture;
             objectCoordinates = inputRectangle;
+
+            points = 10;
+        }
+
+        public int HowMuchPoint()
+        {
+            return points;
         }
     }
 }

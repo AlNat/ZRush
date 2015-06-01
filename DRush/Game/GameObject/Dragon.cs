@@ -14,15 +14,18 @@ namespace DRush
 
         Settings settings;
         Dictionary<string, int> coonfig;
+        Vector2 saveDirection;
 
-        public Dragon(Texture2D inputTexture, Rectangle inputRectangle, Vector2 newDirection) // Конструктор
+        public Dragon(Texture2D inputTexture,  Vector2 inDirection) // Конструктор
         {
             settings = new Settings();
             settings.GetData (out coonfig); 
 
             // Технические переменные:
             objectTexture = inputTexture;
-            objectCoordinates = inputRectangle;
+            originalDirection = inDirection;
+            saveDirection = inDirection; // Это для новой игры
+
             angle = 0; // Угол поворота
             staticSetting = false; // Статичен ли объект или нет
 
@@ -41,62 +44,58 @@ namespace DRush
         public void SetToStart()
         { // Обнуление координат
 
-            objectCoordinates.X = (coonfig["widthOfScreen"] / 2) - 90;
-            objectCoordinates.Y = (coonfig["heightOfScreen"] / 2) - 50;
-
-            // Обнуление вектора
+            originalDirection.X = (coonfig["widthOfScreen"] / 2) - 90;
+            originalDirection.Y = (coonfig["heightOfScreen"] / 2) - 50;
 
         }
 
         public override void Update() 
         {
 
-            objectCoordinates = new Rectangle((int)newDirection.X, (int)newDirection.Y, objectTexture.Width, objectTexture.Height);
-
             // Описание движения
             if ( Keyboard.GetState().IsKeyDown(Keys.Down) || Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                objectCoordinates.Y += moveCooficient;
+                originalDirection.Y += moveCooficient;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) || Keyboard.GetState().IsKeyDown(Keys.W) )
             {
-                objectCoordinates.Y -= moveCooficient;
+                originalDirection.Y -= moveCooficient;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) || Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                objectCoordinates.X -= moveCooficient;
+                originalDirection.X -= moveCooficient;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right) || Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                objectCoordinates.X += moveCooficient;
+                originalDirection.X += moveCooficient;
             }
 
             // Описание поворота
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-                angle += 0.1f;
+                angle += 0.04f;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
-                angle -= 0.1f;
+                angle -= 0.04f;
             }
 
             // Границы экрана
-            if (objectCoordinates.X < -20)
+            if (originalDirection.X < -20)
             {
-                objectCoordinates.X = coonfig["widthOfScreen"] - 20; 
+                originalDirection.X = coonfig["widthOfScreen"] - 20; 
             }
-            if (objectCoordinates.X > coonfig["widthOfScreen"] - 20)
+            if (originalDirection.X > coonfig["widthOfScreen"] - 20)
             {
-                objectCoordinates.X = -10; 
+                originalDirection.X = -10; 
             }
-            if (objectCoordinates.Y < -20)
+            if (originalDirection.Y < -20)
             {
-                objectCoordinates.Y = coonfig["heightOfScreen"] - 10;
+                originalDirection.Y = coonfig["heightOfScreen"] - 10;
             }
-            if (objectCoordinates.Y > coonfig["heightOfScreen"] - 10)
+            if (originalDirection.Y > coonfig["heightOfScreen"] - 10)
             {
-                objectCoordinates.Y = -5;
+                originalDirection.Y = -5;
             }
 
             // Создание выстрела
@@ -108,7 +107,7 @@ namespace DRush
         }
 
          
-        public void Draw(SpriteBatch spriteBatch) // Переписали метод отрисовки
+        public void Draw (SpriteBatch spriteBatch) // Переписали метод отрисовки
         {
             spriteBatch.Draw(objectTexture, originalDirection, null, Color.White, angle, newDirection, 1f, SpriteEffects.None, 0); // Рисуем его под углом ДОДЕЛАТЬ
         }
@@ -116,6 +115,12 @@ namespace DRush
         public void Shoot (ref Rectangle rectangle) {
             rectangle.X = objectCoordinates.X;
             rectangle.Y = objectCoordinates.Y;        
+        }
+
+        public void KillEnemy(int expa)
+        {
+            // Принимает кол-во очков опыта, которые надо добавить
+            points += expa;
         }
 
     }

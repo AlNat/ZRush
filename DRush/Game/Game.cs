@@ -26,6 +26,8 @@ namespace DRush {// Пространство имен именем нашей и
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        private SpriteFont scoreFont;
+
         private Settings settings; // Настройки
         private Saving saver; // Класс для сохранения\загрузи
         private AllData data; // Объет - данные
@@ -35,7 +37,7 @@ namespace DRush {// Пространство имен именем нашей и
         private Dictionary<string, int> coonfig; // Список настроек
         
         private Dragon playerDragon; // Дракон
-        private Flame playerFlame; // Пламя
+        //private Flame playerFlame; // Пламя
 
         MainMenu menu; // Меню
         GameState gamestate = GameState.Menu; // Установили игровое состояние в меню
@@ -148,6 +150,8 @@ namespace DRush {// Пространство имен именем нашей и
 
             /////// Как я понял - все действия с текстурами нуно проводить только здесь
 
+            scoreFont = Content.Load<SpriteFont>("ScoreFont");
+
             // Словарь текстур:
             texture = new Dictionary<string, Texture2D>();
             texture.Add("grass", Content.Load<Texture2D>("Background\\texture_grass"));
@@ -158,38 +162,22 @@ namespace DRush {// Пространство имен именем нашей и
             texture.Add("tree2", Content.Load<Texture2D>("Background\\texture_tree2"));
             texture.Add("village", Content.Load<Texture2D>("Background\\texture_village"));
             texture.Add("farm", Content.Load<Texture2D>("Background\\texture_farm"));
-
             texture.Add("reddragon", Content.Load<Texture2D>("Dragons\\texture_reddragon"));
             texture.Add("flame", Content.Load<Texture2D>("Dragons\\texture_flame"));
 
             playerDragon = new Dragon(
                 texture["reddragon"],
-                new Rectangle(
-                (coonfig["widthOfScreen"] / 2) - 90,
-                (coonfig["heightOfScreen"] / 2) - 50,
-                180,
-                100
-                ),
-                new Vector2((coonfig["widthOfScreen"] / 2) - 90, (coonfig["heightOfScreen"] / 2) - 50)
-            );
-            /*
-            playerDragon = new Dragon(
-                Content.Load<Texture2D>("Dragons\\texture_reddragon"),
-                new Rectangle(
-                (coonfig["widthOfScreen"] / 2),
-                (coonfig["heightOfScreen"] / 2),
-                180,
-                100
+                new Vector2(
+                    (coonfig["widthOfScreen"] / 2) - 90,
+                    (coonfig["heightOfScreen"] / 2) - 50
                 )
             );
-             * */
-            
+            /*
             playerFlame = new Flame(
                 texture["flame"],
                 new Rectangle(0, 0, 100, 100)
-            );
+            );*/
              
-
             menu.LoadContent(Content); // Передали Content
 
             GreateGame(Content); // Вызвали метод инициализации нового игры
@@ -236,7 +224,7 @@ namespace DRush {// Пространство имен именем нашей и
             }
 
             playerDragon.Update();
-            playerFlame.Update();
+            //playerFlame.Update();
 
             // Пока не будем изменять фон, но в будущем будем изменять и вызывать отсюда background.Update();
 
@@ -270,19 +258,21 @@ namespace DRush {// Пространство имен именем нашей и
 
             spriteBatch.Begin(); // Начало прорисовки фона
 
-            background.Draw(spriteBatch, texture); // Прорисовали фон
+            background.Draw (spriteBatch, texture); // Прорисовали фон
+
+            spriteBatch.DrawString(scoreFont, "Score = " + playerDragon.points, new Vector2((coonfig["widthOfScreen"] / 2) - 50, 1), Color.OrangeRed);
 
             spriteBatch.End(); // Конец прорисовки фона
 
 
+
             spriteBatch.Begin(); // Начало прорисовки
 
-            playerDragon.Draw(spriteBatch);
-
-            playerFlame.Draw(spriteBatch);
-
+            playerDragon.Draw(spriteBatch);          
+            //playerFlame.Draw(spriteBatch);
             spriteBatch.End(); // Конец прорисовки
         }
+
 
 
     }

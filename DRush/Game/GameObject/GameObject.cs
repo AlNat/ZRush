@@ -25,7 +25,7 @@ namespace DRush
         protected int live; // Характеристика жизнь
         protected int level; // Уровень
         protected int exp; // Кол-во очков опыта
-        protected int points; // Кол-во очков. Для игрока - это его кол-во, для врагов - это заработок игра после убийства
+        public int points; // Кол-во очков. Для игрока - это его кол-во, для врагов - это заработок игра после убийства
         protected int damage; // Урон
 
         // Подумать насчет необходимости этого
