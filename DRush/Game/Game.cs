@@ -49,6 +49,8 @@ namespace DRush {// Пространство имен именем нашей и
         public List<Flame> playerFlames = new List<Flame>(); // Список выстрелов
         public List<Swordsman> enemies = new List<Swordsman>(); // Список противников
 
+        Saver saver;
+
         MainMenu menu; // Меню
         GameState gamestate = GameState.Menu; // Установили игровое состояние в меню
 
@@ -58,13 +60,20 @@ namespace DRush {// Пространство имен именем нашей и
             Content.RootDirectory = "Content";
             this.Window.Title = "DRush"; // Название окна
 
+            saver = new Saver();
+
             settings = new Settings();
             settings.GetData(out coonfig);
 
+            
             graphics.PreferredBackBufferWidth = coonfig["widthOfScreen"]; // Разрешение экрана
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
-            graphics.IsFullScreen = true; // Полный экран SETTING
-
+            graphics.IsFullScreen = false; // Полный экран SETTING
+            /*
+            graphics.PreferredBackBufferWidth = 800; // Разрешение экрана
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.IsFullScreen = false; // Полный экран SETTING
+             */
             nowFlame = 0;
             nowEnemy = 0;
 
@@ -142,14 +151,15 @@ namespace DRush {// Пространство имен именем нашей и
 
         void saveGame_Click(object sender, EventArgs e)
         { // Сохранить игру
-            //data.GetData();
-            //saver.Save();
+            saver.Save(playerDragon, enemies, background.back);
+            gamestate = GameState.Game;
         }
 
         void loadGame_Click(object sender, EventArgs e)
         { // Загрузить игру
-            //saver.Load(); 
-            //data.GiveData();
+            // Передали данные, их там изменили
+            saver.Load( ref playerDragon, ref enemies , ref background.back );
+            gamestate = GameState.Game;
         }
 
         void changeSettings_Click(object sender, EventArgs e)

@@ -11,6 +11,7 @@ namespace DRush
     class Settings
     {
         /// Класс настроек - прокси между файлами и другими частями приложения
+        // TODO сделать его static
 
         // Разрешение экрана
         int widthOfScreen;

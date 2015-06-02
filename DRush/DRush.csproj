@@ -122,7 +122,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Menu\MainMenu.cs" />
     <Compile Include="Game\Saver.cs" />
-    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Game\Settings.cs" />
     <Compile Include="Game\GameObject\Swordsman.cs" />
     <Compile Include="Game\GameObject\Village.cs" />
   </ItemGroup>

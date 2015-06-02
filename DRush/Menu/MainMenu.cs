@@ -20,6 +20,9 @@ namespace DRush {// Пространство имен именем нашей и
         SpriteFont font; // Шрифт в меню
         MenuImage image;
 
+        int winCounter;
+        bool winFlag;
+
         int currentItem; // Выбранный пунт меню
         KeyboardState oldState; // Предыдущее состояние клавиатуры
 
@@ -34,11 +37,18 @@ namespace DRush {// Пространство имен именем нашей и
 
             Items = new List<MenuItem>();
 
+            winCounter = 50000;
+            winFlag = false;
+
         }
 
         public void Update()
         {
             KeyboardState state = Keyboard.GetState(); // Получили состояние
+            if (winFlag)
+            {
+                winCounter--;
+            }
 
             if (state.IsKeyDown(Keys.Enter))
             { //Если нажат enter
@@ -132,10 +142,13 @@ namespace DRush {// Пространство имен именем нашей и
 
         public void Finish (string input, SpriteBatch spriteBatch)
         {
-            
+            winFlag = true;
+            if (winCounter > 0) {
             spriteBatch.Begin(); // Начало прорисовки фона
             spriteBatch.DrawString(font, input, new Vector2 (coonfig["widthOfScreen"]/2, coonfig["heightOfScreen"]/2), Color.AntiqueWhite );
             spriteBatch.End(); // Начало прорисовки фона
+            }
+            // ТИКИ
 
             // Здесь нужно как-нибудь обождать
         }

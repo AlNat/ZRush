@@ -50,6 +50,12 @@ namespace DRush
 
         }
 
+        public void Sett (int x, int y)
+        {
+            originalDirection.X = x;
+            originalDirection.Y = y;
+        }
+
         public override void Update() 
         {
 

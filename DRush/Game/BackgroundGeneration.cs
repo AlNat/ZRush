@@ -13,7 +13,7 @@ namespace DRush
         private Dictionary<string, int> coonfig; // Коофициенты из настроек
         private Settings settings; 
 
-        int[,] back;
+        public int[,] back;
         Rectangle mainFrame = new Rectangle(0, 0, 100, 100); // Примитив чанка - пустой прямоугольник размерами 100х100
 
         public BackgroundGeneration()
@@ -101,6 +101,12 @@ namespace DRush
                 }
                 mainFrame.X = coonfig["xBackgroundCooficient"] * tX;
             }
+        }
+
+        public void Change(ref int[,] bc)
+        {
+            // Изменили фон
+            back = bc;
         }
 
         public void Update()
