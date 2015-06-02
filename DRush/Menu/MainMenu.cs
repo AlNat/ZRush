@@ -7,9 +7,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
-using System.Timers;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace DRush {// Пространство имен именем нашей игры
 
@@ -144,9 +141,9 @@ namespace DRush {// Пространство имен именем нашей и
         {
             winFlag = true;
             if (winCounter > 0) {
-            spriteBatch.Begin(); // Начало прорисовки фона
-            spriteBatch.DrawString(font, input, new Vector2 (coonfig["widthOfScreen"]/2, coonfig["heightOfScreen"]/2), Color.AntiqueWhite );
-            spriteBatch.End(); // Начало прорисовки фона
+                spriteBatch.Begin(); // Начало прорисовки фона
+                spriteBatch.DrawString(font, input, new Vector2 (coonfig["widthOfScreen"]/2, coonfig["heightOfScreen"]/2), Color.AntiqueWhite );
+                spriteBatch.End(); // Начало прорисовки фона
             }
             // ТИКИ
 

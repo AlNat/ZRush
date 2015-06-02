@@ -25,7 +25,7 @@ namespace DRush
         protected int live; // Характеристика жизнь
         protected int level; // Уровень
         protected int exp; // Кол-во очков опыта
-        // TODO - разобратся с облостями видимости
+        // TODO - разобратся с областями видимости
         public int points; // Кол-во очков. Для игрока - это его кол-во, для врагов - это заработок игра после убийства
         protected int damage; // Урон
 
@@ -52,8 +52,8 @@ namespace DRush
 
         public bool IsCollapse(GameObject inputGameObject)
         {
-            if (Math.Abs(inputGameObject.originalDirection.X - objectCoordinates.X) < 50 && Math.Abs(inputGameObject.originalDirection.Y - objectCoordinates.Y) < 50)
-                //.Intersects (objectCoordinates)) // Если прямоугольники координат пересеклись 
+            if (Math.Abs(inputGameObject.originalDirection.X - objectCoordinates.X) < 75 && Math.Abs(inputGameObject.originalDirection.Y - objectCoordinates.Y) < 50)
+            // Если координат пересеклись 
                 return true;
             else
                 return false;
@@ -67,7 +67,7 @@ namespace DRush
                 return false;
         }
 
-        public bool IsStatic() // TODO ИНТЕРФЕЙС
+        public bool IsStatic()
         {
             return staticSetting;
         } 
@@ -78,7 +78,5 @@ namespace DRush
             return live;
         }
          */
-
-
     }
 }

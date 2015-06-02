@@ -118,6 +118,8 @@ namespace DRush
                     inputAttribute = xmlSettings.Element("Data").Element("Background").Element("x" + t).Attribute("y" + tt).Value;
                     background[t1, t2] = Convert.ToInt32(inputAttribute);
                     /// НЕ УСТАЮ ХВАЛИТЬ СТРОКОВЫЕ КОНКАТЕНАЦИИ
+
+                /// ТУТ БАГ = двумерные массивы не особо в C#
                 }
             }
         }

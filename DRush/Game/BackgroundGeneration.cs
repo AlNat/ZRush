@@ -13,7 +13,7 @@ namespace DRush
         private Dictionary<string, int> coonfig; // Коофициенты из настроек
         private Settings settings; 
 
-        public int[,] back;
+        public int[,] back; // Да, я все понимаю. Но блин, мне лень писать геттеры
         Rectangle mainFrame = new Rectangle(0, 0, 100, 100); // Примитив чанка - пустой прямоугольник размерами 100х100
 
         public BackgroundGeneration()
@@ -57,7 +57,7 @@ namespace DRush
             back[1, 0] = 1; // Левый нижний
             back[1, 1] = 1; // Левый верхний
 
-   
+            /// НУ ВООБЩЕ ПРОСТО ЗАМЕЧАТЕЛЬНО! ЧЕРТОВЫ МАССИВЫ
 
         }
 
@@ -101,12 +101,6 @@ namespace DRush
                 }
                 mainFrame.X = coonfig["xBackgroundCooficient"] * tX;
             }
-        }
-
-        public void Change(ref int[,] bc)
-        {
-            // Изменили фон
-            back = bc;
         }
 
         public void Update()

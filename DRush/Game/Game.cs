@@ -77,7 +77,7 @@ namespace DRush {// Пространство имен именем нашей и
             nowFlame = 0;
             nowEnemy = 0;
 
-            GreateGame(Content); // Вызвали создание новой игры
+            GreateGame(); // Вызвали создание новой игры
 
         }
 
@@ -108,7 +108,7 @@ namespace DRush {// Пространство имен именем нашей и
             saveGame.Click += new EventHandler(saveGame_Click);
             loadGame.Click += new EventHandler(loadGame_Click);
 
-            changeSettings.Click += new EventHandler(changeSettings_Click);
+            //changeSettings.Click += new EventHandler(changeSettings_Click);
             exitGame.Click +=new EventHandler(exitGame_Click);
 
             // Добавляем элеменыт меню
@@ -130,7 +130,7 @@ namespace DRush {// Пространство имен именем нашей и
             menu.Items[2].Active = true;
             gamestate = GameState.Game;
 
-            GreateGame(Content);
+            GreateGame();
             playerDragon.SetToStart(); 
 
             ////// БАГА - остается при новой игре только несожранные люди.
@@ -161,11 +161,11 @@ namespace DRush {// Пространство имен именем нашей и
             saver.Load( ref playerDragon, ref enemies , ref background.back );
             gamestate = GameState.Game;
         }
-
+        /*
         void changeSettings_Click(object sender, EventArgs e)
         { // Изменение настроек
 
-        }
+        }*/
 
         void exitGame_Click(object sender, EventArgs e)
         { // Выход из игры
@@ -223,20 +223,19 @@ namespace DRush {// Пространство имен именем нашей и
             }
           
             /*
-                tempFlame = new Flame(
-                    texture["flame"],
-                    //new Rectangle(100, 100, 100, 100),
-                    new Vector2(100, 100)
-                ); 
+            tempFlame = new Flame(
+                texture["flame"],
+                //new Rectangle(100, 100, 100, 100),
+                new Vector2(100, 100)
+            ); 
             */
             menu.LoadContent(Content); // Передали Content
-
-            GreateGame(Content); // Вызвали метод инициализации нового игры
+            GreateGame(); // Вызвали метод инициализации нового игры
         }
 
-        private void GreateGame(ContentManager Content)
+        private void GreateGame()
         { // Инициализация нового уровня
-            // Генерируем новый фон и ставим дракона, и противников
+            // TODO = Генерируем новый фон и ставим дракона, и противников
 
             background = new BackgroundGeneration();
 
@@ -245,7 +244,6 @@ namespace DRush {// Пространство имен именем нашей и
         /// <summary>
         /// Методы обновления 
         /// </summary>
-
 
         protected override void Update(GameTime gameTime)
         {
@@ -322,10 +320,10 @@ namespace DRush {// Пространство имен именем нашей и
             { // Прошли по списку пламеней и продвинули их
                 flames.originalDirection.X += 5;
                 flames.originalDirection.Y += 5;
-                //if (Vector2.Distance(playerDragon.newDirection, flames.originalDirection) > coonfig["heightOfScreen"] / 2)
-                //{ // Если палмя слишком далеко то удалить его
-                  //  flames.isVisible = false; 
-                //}
+                if (Vector2.Distance(playerDragon.newDirection, flames.originalDirection) > coonfig["heightOfScreen"] / 2)
+                { // Если палмя слишком далеко то удалить его
+                    flames.isVisible = false; 
+                }
             }
 
             for (int t = 0; t < playerFlames.Count; t++)
@@ -343,7 +341,6 @@ namespace DRush {// Пространство имен именем нашей и
         /// <summary>
         /// Рисование
         /// </summary>
-
 
         protected override void Draw(GameTime gameTime)
         {

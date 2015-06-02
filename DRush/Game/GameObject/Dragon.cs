@@ -11,8 +11,6 @@ namespace DRush
 {
     public class Dragon : GameObject
     {
-
-
         public bool shootSignal;
         Settings settings;
         Dictionary<string, int> coonfig;
@@ -47,11 +45,11 @@ namespace DRush
 
             originalDirection.X = (coonfig["widthOfScreen"] / 2) - 90;
             originalDirection.Y = (coonfig["heightOfScreen"] / 2) - 50;
-
         }
 
         public void Sett (int x, int y)
         {
+            // Для загрузки из файла
             originalDirection.X = x;
             originalDirection.Y = y;
         }
@@ -80,11 +78,11 @@ namespace DRush
             // Описание поворота
             if (Keyboard.GetState().IsKeyDown(Keys.Q))
             {
-                angle += 0.06f;
+                angle += 0.05f;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.E))
             {
-                angle -= 0.06f;
+                angle -= 0.05f;
             }
 
             // Границы экрана
@@ -112,7 +110,6 @@ namespace DRush
             }
 
         }
-
          
         public void Draw (SpriteBatch spriteBatch) // Переписали метод отрисовки
         {
@@ -124,8 +121,11 @@ namespace DRush
 
             shootSignal = false;
             flame.isVisible = true;
+
             // ХЗ почему тут не работает - оставлю на доделать
-            // Скажем что драконы, даже если бы существовали все равно не могли бы дышат ьпламенем
+            // Скажем что драконы, даже если бы существовали все равно не могли бы дышать пламенем
+            
+            // TODO - доделать
             flame.flameVelocity = new Vector2 (
             (float)Math.Cos(originalDirection.X),
             (float)Math.Sin(originalDirection.Y)
