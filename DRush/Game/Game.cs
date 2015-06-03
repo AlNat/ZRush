@@ -19,6 +19,7 @@ namespace DRush {// Пространство имен именем нашей и
         Game,
         Menu,
         Settings,
+        Win
     }
 
     public class Game : Microsoft.Xna.Framework.Game // Класс игра
@@ -50,7 +51,6 @@ namespace DRush {// Пространство имен именем нашей и
         public List<Swordsman> enemies = new List<Swordsman>(); // Список противников
 
         Saver saver;
-
         MainMenu menu; // Меню
         GameState gamestate = GameState.Menu; // Установили игровое состояние в меню
 
@@ -68,12 +68,8 @@ namespace DRush {// Пространство имен именем нашей и
             
             graphics.PreferredBackBufferWidth = coonfig["widthOfScreen"]; // Разрешение экрана
             graphics.PreferredBackBufferHeight = coonfig["heightOfScreen"];
-            graphics.IsFullScreen = false; // Полный экран SETTING
-            /*
-            graphics.PreferredBackBufferWidth = 800; // Разрешение экрана
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.IsFullScreen = false; // Полный экран SETTING
-             */
+            graphics.IsFullScreen = true; // Полный экран SETTING
+
             nowFlame = 0;
             nowEnemy = 0;
 
@@ -247,6 +243,18 @@ namespace DRush {// Пространство имен именем нашей и
 
         protected override void Update(GameTime gameTime)
         {
+            if (playerDragon.points == maxEnemy * 10)
+            {
+                gamestate = GameState.Win;
+            }
+
+            KeyboardState state = Keyboard.GetState();
+            if (state.IsKeyDown(Keys.Escape) && gamestate == GameState.Win)
+            {
+                playerDragon.points = 0;
+                gamestate = GameState.Menu;
+            }
+
             if (gamestate == GameState.Game)
             { // Если игровое состояние - игра то обновляем игру
                 UpdateGame(); // Выделели обновление игры в отдельный метод
@@ -254,7 +262,7 @@ namespace DRush {// Пространство имен именем нашей и
             else if (gamestate == GameState.Menu)
             {
                 menu.Update();
-            }
+            } 
 
         }
 
@@ -347,7 +355,7 @@ namespace DRush {// Пространство имен именем нашей и
 
             GraphicsDevice.Clear(Color.Black); // Цвет начального фона
 
-            if (playerDragon.points >= maxEnemy * 10)
+            if (gamestate == GameState.Win)
             {
                 DrawFinish(spriteBatch);
             }
@@ -394,10 +402,9 @@ namespace DRush {// Пространство имен именем нашей и
 
          void DrawFinish(SpriteBatch spriteBatch)
          {
-            gamestate = GameState.Menu;
-            menu.Finish("YOU WIN! Score = " + playerDragon.points, spriteBatch);
-            playerDragon.points = 0;
-            menu.Draw(spriteBatch);
+            spriteBatch.Begin(); // Начало прорисовки фона
+            spriteBatch.DrawString(scoreFont, "YOU WIN! Score = " + playerDragon.points, new Vector2(coonfig["widthOfScreen"] / 2, coonfig["heightOfScreen"] / 2), Color.AntiqueWhite);
+            spriteBatch.End(); // Начало прорисовки фона
          }
 
 

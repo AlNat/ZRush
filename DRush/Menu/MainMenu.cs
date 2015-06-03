@@ -137,19 +137,6 @@ namespace DRush {// Пространство имен именем нашей и
 
         }
 
-        public void Finish (string input, SpriteBatch spriteBatch)
-        {
-            winFlag = true;
-            if (winCounter > 0) {
-                spriteBatch.Begin(); // Начало прорисовки фона
-                spriteBatch.DrawString(font, input, new Vector2 (coonfig["widthOfScreen"]/2, coonfig["heightOfScreen"]/2), Color.AntiqueWhite );
-                spriteBatch.End(); // Начало прорисовки фона
-            }
-            // ТИКИ
-
-            // Здесь нужно как-нибудь обождать
-        }
-
 
     }
 
