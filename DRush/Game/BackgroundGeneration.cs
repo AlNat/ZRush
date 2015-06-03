@@ -62,7 +62,7 @@ namespace DRush
         }
 
 
-        public void Draw(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texture)//Texture2D[] texture) // Передали массив текстур и все хорошо;
+        public void Draw(SpriteBatch spriteBatch, Dictionary<string, Texture2D> texture) // Передали массив текстур и все хорошо;
         { // Функция рисования  
             for (int tX = 0; tX < coonfig["countOfChuncsX"]; tX++) // Отрисовывем фон несколькими проходами 
             {

@@ -11,9 +11,11 @@ namespace DRush
     public class GameObject // Класс для обозначения некого примитива (в 20 кб, ага :) ) - от него "происходят" все остальные объекты
     {
 
+        /// TODO - разобратся с геттерами и стеерами и областями видимости!
+
         // Переменные описания объекта
         protected Texture2D objectTexture; // Текстура
-        protected Rectangle objectCoordinates; // Прямоугольник тестуры - координаты
+        public Rectangle objectCoordinates; // Прямоугольник тестуры - координаты
 
         public Vector2 originalDirection;
         public Vector2 newDirection; 
